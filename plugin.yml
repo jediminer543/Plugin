@@ -1,0 +1,9 @@
+name: Plugin
+main: com.jediminer543.plugin.Plugin
+version: 0.0.1
+commands:
+   test:
+      description: This is a test command.
+      usage: /test
+      permission: <plugin name>.basic
+      permission-message: You don't have <permission>
