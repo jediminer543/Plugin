@@ -34,6 +34,7 @@ public final class Plugin extends JavaPlugin
 		{
 			case "test":
 				sender.sendMessage("Test Sucsesfull");
+				break;
 			case "sethome":
 			//case "seth":
 				if(player)
@@ -42,11 +43,14 @@ public final class Plugin extends JavaPlugin
 					sender.sendMessage(senderp.getLocation().toString());
 					sender.sendMessage("Home Set If It Was Implemented");
 				}
+				break;
 			case "spawn":
 				if(player)
 				{
+					senderp.sendMessage(senderp.getBedSpawnLocation().toString());
 					senderp.teleport(senderp.getBedSpawnLocation());
 				}
+				break;
 			default: break;
 		}
 		return false;

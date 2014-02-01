@@ -14,7 +14,7 @@ commands:
       usage: /test
       permission: thing.*
       permission-message: You don't have
-test:
+   spawn:
       description: Sends you back to your spawn.
       usage: /spawn
       permission: location.*
