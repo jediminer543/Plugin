@@ -36,7 +36,6 @@ public final class Plugin extends JavaPlugin
 				sender.sendMessage("Test Sucsesfull");
 				break;
 			case "sethome":
-			//case "seth":
 				if(player)
 				{
 					
