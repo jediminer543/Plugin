@@ -1,19 +1,27 @@
 package com.jediminer543.plugin;
 
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.jediminer543.plugin.config.LocationHandeler;
 
 
 
 public final class Plugin extends JavaPlugin 
 {
+	CustomConfig FactionConfigHandeler = new CustomConfig(this, "Factions.yml");
+	CustomConfig WarpConfigHandeler = new CustomConfig(this, "Locations.yml");
 	
     @Override
     public void onEnable(){
     	getLogger().info("onEnable has been invoked!");
-    	this.saveDefaultConfig();
+    	FactionConfigHandeler = new CustomConfig(this, "Factions.yml");
+    	WarpConfigHandeler = new CustomConfig(this, "Locations.yml");
     }
  
     @Override
@@ -40,7 +48,15 @@ public final class Plugin extends JavaPlugin
 				{
 					
 					sender.sendMessage(senderp.getLocation().toString());
-					sender.sendMessage("Home Set If It Was Implemented");
+					WarpConfigHandeler.getConfig().set(senderp.getName()+".Home.Location", LocationHandeler.fromLoc(senderp.getLocation()));
+					sender.sendMessage("Home Set");
+				}
+				break;
+			case "home":
+				if(player)
+				{
+					senderp.teleport(LocationHandeler.toLoc(WarpConfigHandeler.getConfig().getStringList(senderp.getName()+".Home.Location")));
+					sender.sendMessage("You Are Now At Home");
 				}
 				break;
 			case "spawn":
