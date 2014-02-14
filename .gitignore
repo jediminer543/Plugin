@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 *.class
 .classpath
 *.bat
@@ -9,14 +8,3 @@
 *.war
 *.ear
 /bin
-=======
-*.class
-.project
-.classpath
-
-# Package Files #
-*.jar
-*.war
-*.ear
-/bin
->>>>>>> refs/remotes/origin/test-otherloc
