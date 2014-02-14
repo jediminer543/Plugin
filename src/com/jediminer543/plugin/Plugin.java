@@ -1,5 +1,9 @@
 package com.jediminer543.plugin;
 
+import java.util.Random;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -19,11 +23,16 @@ public final class Plugin extends JavaPlugin
     	getLogger().info("onEnable has been invoked!");
     	FactionConfigHandeler = new CustomConfig(this, "Factions.yml");
     	WarpConfigHandeler = new CustomConfig(this, "Locations.yml");
+    	WarpConfigHandeler.reloadConfig();
+    	FactionConfigHandeler.reloadConfig();
     }
  
     @Override
     public void onDisable() {
     	getLogger().info("onEnable has been invoked!");
+    	WarpConfigHandeler.saveConfig();
+    	FactionConfigHandeler.saveConfig();
+    	
 
     }
     
@@ -37,14 +46,17 @@ public final class Plugin extends JavaPlugin
 			senderp = (Player) sender;
 		switch (cmd.getName().toLowerCase())
 		{
-			case "test":
-				sender.sendMessage("Test Sucsesfull");
+			case "random":
+				if (player)
+				{
+					Random r = new Random();
+					//Math Here
+					//senderp.teleport(new Location(Bukkit.getServer().getWorlds().get(0), , 0, 0));
+				}
 				break;
 			case "sethome":
 				if(player)
 				{
-					
-					sender.sendMessage(senderp.getLocation().toString());
 					WarpConfigHandeler.getConfig().set(senderp.getName()+".Home.Location", LocationHandeler.fromLoc(senderp.getLocation()));
 					sender.sendMessage("Home Set");
 				}
@@ -52,14 +64,22 @@ public final class Plugin extends JavaPlugin
 			case "home":
 				if(player)
 				{
-					senderp.teleport(LocationHandeler.toLoc(WarpConfigHandeler.getConfig().getStringList(senderp.getName()+".Home.Location")));
-					sender.sendMessage("You Are Now At Home");
+					try{
+						senderp.teleport(LocationHandeler.toLoc(WarpConfigHandeler.getConfig().getStringList(senderp.getName()+".Home.Location")));
+						sender.sendMessage("You Are Now At Home");
+					}
+					catch(Exception e)
+					{
+						sender.sendMessage("Server Error");
+						e.printStackTrace();
+					}
+					
 				}
 				break;
 			case "spawn":
 				if(player)
 				{
-					senderp.teleport(senderp.getBedSpawnLocation());
+					senderp.teleport(senderp.getWorld().getSpawnLocation());
 				}
 				break;
 			default: break;

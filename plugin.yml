@@ -1,57 +1,21 @@
-<<<<<<< HEAD
 name: Plugin
 main: com.jediminer543.plugin.Plugin
-version: 0.0.1
-permissions:
-    location.*:
-      description: Gives access to all thing commands
-      default: true
-    thing.*:
-      description: Gives access to all thing commands
-      default: true
-commands:
-   test:
-      description: This is a test command.
-      usage: /test
-      permission: thing.*
-      permission-message: You don't have
-   spawn:
-      description: Sends you back to your spawn.
-      usage: /spawn
-      permission: location.*
-=======
-name: Plugin
-main: com.jediminer543.plugin.Plugin
-version: 0.0.1
+version: 0.0.3
 permissions:
     home.*:
       description: Gives access to the home and base system
       default: true
-    location.*:
-      description: Gives access to all thing commands
-      default: true
-    thing.*:
-      description: Gives access to all thing commands
-      default: true
 commands:
-   test:
-      description: This is a test command.
-      usage: /test
-      permission: thing.*
-      permission-message: You don't have
-   spawn:
+  sethome:
       description: Sends you back to your spawn.
-      usage: /spawn
+      permission: home.*
+      permission-message: You need home permision to use this.
+  home:
+      description: Sends you back to your spawn.
+      permission: home.*
+      permission-message: You need home permision to use this.
+  spawn:
+      description: Sends you back to your spawn.
       permission: location.*
       permission-message: You need location control to use this.
-    sethome:
-      description: Sends you back to your spawn.
-      usage: /home
-      permission: home.*
-      permission-message: You need location control to use this.
-    home:
-      description: Sends you back to your spawn.
-      usage: /home
-      permission: home.*
->>>>>>> refs/remotes/origin/test-otherloc
-      permission-message: You need location control to use this.
+    
