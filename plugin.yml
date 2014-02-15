@@ -8,14 +8,22 @@ permissions:
 commands:
   sethome:
       description: Sends you back to your spawn.
+      usage: /sethome
       permission: home.*
       permission-message: You need home permision to use this.
   home:
       description: Sends you back to your spawn.
+      usage: /home
       permission: home.*
       permission-message: You need home permision to use this.
   spawn:
       description: Sends you back to your spawn.
+      usage: /spawn
+      permission: location.*
+      permission-message: You need location control to use this.
+  plugin:
+      description: Sends you back to your spawn.
+      usage: /plugin [command]
       permission: location.*
       permission-message: You need location control to use this.
     
