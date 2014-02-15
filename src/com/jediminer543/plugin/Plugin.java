@@ -3,18 +3,23 @@ package com.jediminer543.plugin;
 import java.util.List;
 import java.util.Random;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.jediminer543.plugin.config.LocationHandeler;
+import com.jediminer543.plugin.config.parsers.LocationHandeler;
 
 
 
 public final class Plugin extends JavaPlugin 
 {
+	private static final List<Player> playerList = null;
 	CustomConfig FactionConfigHandeler = new CustomConfig(this, "Factions.yml");
 	CustomConfig WarpConfigHandeler = new CustomConfig(this, "Locations.yml");
 	
@@ -25,6 +30,9 @@ public final class Plugin extends JavaPlugin
     	WarpConfigHandeler = new CustomConfig(this, "Locations.yml");
     	WarpConfigHandeler.reloadConfig();
     	FactionConfigHandeler.reloadConfig();
+    	for (Player player : this.getServer().getOnlinePlayers()) {
+    		 playerList.add(player);
+    		}
     }
  
     @Override
@@ -48,10 +56,12 @@ public final class Plugin extends JavaPlugin
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2, String[] args)
 	{
 		boolean player = false;
-		Player senderp;
+		Player senderp = null;
 		if (sender instanceof Player)
+		{
 			player = true;
 			senderp = (Player) sender;
+		}
 		switch (cmd.getName().toLowerCase())
 		{
 			case "plugin":
@@ -61,11 +71,20 @@ public final class Plugin extends JavaPlugin
 			case "random":
 				if (player)
 				{
-					Random r = new Random();
-					//Math Here
-					//senderp.teleport(new Location(Bukkit.getServer().getWorlds().get(0), , 0, 0));
+					Random rand = new Random();
+					int r = 1000;
+					int x = rand.nextInt(r - 100)+100;
+					int z = (int) Math.sqrt(r^2-x^2);
+					World world = Bukkit.getServer().getWorlds().get(0);
+					int y;
+					y = world.getHighestBlockAt(x, z).getY() + 1;
+					senderp.teleport(new Location(world, x, y, z));
 					return true;
 				}
+				else
+				{
+					sender.sendMessage("Only players can execute this command");
+				}			
 				break;
 			case "sethome":
 				if(player)
@@ -74,6 +93,10 @@ public final class Plugin extends JavaPlugin
 					sender.sendMessage("Home Set");
 					return true;
 				}
+				else
+				{
+					sender.sendMessage("Only players can execute this command");
+				}			
 				break;
 			case "home":
 				if(player)
@@ -90,6 +113,10 @@ public final class Plugin extends JavaPlugin
 					return true;
 					
 				}
+				else
+				{
+					sender.sendMessage("Only players can execute this command");
+				}			
 				break;
 			case "spawn":
 				if(player)
@@ -112,8 +139,10 @@ public final class Plugin extends JavaPlugin
 		boolean player = false;
 		Player complayer = null;
 		if (s instanceof Player)
+		{
 			player = true;
 			complayer = (Player) s;
+		}
 		switch (args[0])
 		{
 		case "add":
@@ -129,7 +158,7 @@ public final class Plugin extends JavaPlugin
 					List<String> l = config.getStringList("Factions.List");
 					l.add(args[1]);
 					config.set("Factions.List", l);
-					
+					config.set(args[1]+".Founder", s.getName());
 					s.sendMessage("Faction Created");
 				}
 			}

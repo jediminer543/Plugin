@@ -26,6 +26,11 @@ commands:
       usage: /plugin <command> [command parameters]
       permission: location.*
       permission-message: You need location control to use this.
+  random:
+      description: Sends you to a random location
+      usage: /random [radius]
+      permission: location.*
+      permission-message: You need location control to use this.
   faction:
       description: Sends you back to your spawn.
       usage: /faction <command> [command parameters]

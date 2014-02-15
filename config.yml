@@ -1,1 +1,4 @@
 autoupdate: false
+commands:
+  random:
+    minradius:100

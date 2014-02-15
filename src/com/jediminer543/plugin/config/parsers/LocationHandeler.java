@@ -1,4 +1,4 @@
-package com.jediminer543.plugin.config;
+package com.jediminer543.plugin.config.parsers;
 
 import java.util.ArrayList;
 import java.util.List;
