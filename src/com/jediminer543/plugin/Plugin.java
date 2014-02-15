@@ -1,9 +1,8 @@
 package com.jediminer543.plugin;
 
+import java.util.List;
 import java.util.Random;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -21,7 +20,7 @@ public final class Plugin extends JavaPlugin
 	
     @Override
     public void onEnable(){
-    	getLogger().info("onEnable has been invoked!");
+    	getLogger().info("Plugin Loading Please Wait");
     	FactionConfigHandeler = new CustomConfig(this, "Factions.yml");
     	WarpConfigHandeler = new CustomConfig(this, "Locations.yml");
     	WarpConfigHandeler.reloadConfig();
@@ -30,7 +29,8 @@ public final class Plugin extends JavaPlugin
  
     @Override
     public void onDisable() {
-    	getLogger().info("onEnable has been invoked!");
+    	getLogger().info("Plugin shutting down, plese wait");
+    	getLogger().info("Writing configs");
     	WarpConfigHandeler.saveConfig();
     	FactionConfigHandeler.saveConfig();
     	
@@ -119,7 +119,19 @@ public final class Plugin extends JavaPlugin
 		case "add":
 			if (args.length == 2)
 			{
-				//config.set("");
+				if (config.getStringList("Factions.List").contains(args[1]))
+				{
+					s.sendMessage("That name is taken");
+					s.sendMessage("Try another one");
+				}
+				else
+				{
+					List<String> l = config.getStringList("Factions.List");
+					l.add(args[1]);
+					config.set("Factions.List", l);
+					
+					s.sendMessage("Faction Created");
+				}
 			}
 			else
 			{
@@ -127,7 +139,7 @@ public final class Plugin extends JavaPlugin
 			}
 			return true;
 		default:
-			s.sendMessage("Invalid command use /faction help for more info");
+			s.sendMessage("Invalid command, use /faction help for more info");
 		}
 		return false;
 	}
@@ -138,7 +150,8 @@ public final class Plugin extends JavaPlugin
 		{
 			case "save":
 				plugin.save();
-				
+				s.sendMessage("Files Saved");
+				return true;
 		}
 		return false;
 	}

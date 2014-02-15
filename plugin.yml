@@ -23,7 +23,12 @@ commands:
       permission-message: You need location control to use this.
   plugin:
       description: Sends you back to your spawn.
-      usage: /plugin [command]
+      usage: /plugin <command> [command parameters]
+      permission: location.*
+      permission-message: You need location control to use this.
+  faction:
+      description: Sends you back to your spawn.
+      usage: /faction <command> [command parameters]
       permission: location.*
       permission-message: You need location control to use this.
     
