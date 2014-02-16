@@ -1,4 +1,12 @@
+Server:
+  Name: Server Name
+  Rules:
+    -Break The Plugin
+  Players:
+    List:
+      - Notch
 autoupdate: false
 commands:
   random:
-    minradius:100
+    enabled: true
+    minradius: 100
