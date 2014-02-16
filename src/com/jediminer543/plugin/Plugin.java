@@ -201,6 +201,9 @@ public final class Plugin extends JavaPlugin
 					if (player)
 					{
 					config.set(args[1]+".Founder", s.getName());
+					List<String> players = config.getStringList("args[1]+.Members");
+					players.add(splayer.getName());
+					config.set(args[1]+".Members", players);
 					CustomConfig founderconfig = PlayerConfigHandeler.getPlayerConfig(splayer, plugin);
 					founderconfig.getConfig().set("Faction.Rank", "Founder");
 					founderconfig.getConfig().set("Faction", args[1]);
@@ -217,6 +220,22 @@ public final class Plugin extends JavaPlugin
 			else
 			{
 				s.sendMessage("You didn't specify the faction name");
+			}
+			return true;
+		case "leave":
+			if (player)
+			{
+				List<String> players = config.getStringList("args[1]+.Members");
+				players.remove(splayer.getName());
+				config.set(args[1]+".Members", players);
+				CustomConfig founderconfig = PlayerConfigHandeler.getPlayerConfig(splayer, plugin);
+				founderconfig.getConfig().set("Faction.Rank", "Normal");
+				founderconfig.getConfig().set("Faction", "Default");
+				founderconfig.saveConfig();
+			}
+			else
+			{
+				s.sendMessage("Only players can execute this command");
 			}
 			return true;
 		default:
