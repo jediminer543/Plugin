@@ -352,6 +352,17 @@ public final class Plugin extends JavaPlugin
 				s.sendMessage("Only players can execute this command");
 			}
 			return true;
+		case "home":
+			if (player)
+			{
+				FileConfiguration playerconfig = PlayerConfigHandeler.getPlayerConfig(splayer, plugin).getConfig();
+				splayer.teleport(LocationHandeler.toLoc(config.getStringList(playerconfig.getString("Faction")+".Home.Loc")));
+			}
+			else
+			{
+				s.sendMessage("Only players can execute this command");
+			}
+			return true;
 		default:
 			s.sendMessage("Invalid command, use /faction help for more info");
 		}
