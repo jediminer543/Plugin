@@ -324,28 +324,6 @@ public final class Plugin extends JavaPlugin
 						}
 					}
 				}
-
-			}
-
-			else
-			{
-				s.sendMessage("Only players can execute this command");
-			}
-			return true;
-		case "sethome":
-			if (player)
-			{
-				FileConfiguration playerconfig = PlayerConfigHandeler.getPlayerConfig(splayer, plugin).getConfig();
-				if (playerconfig.getString("Faction.Rank", "Normal") == "Founder")
-						{
-					config.set(playerconfig.getString("Faction")+".Home.Loc", LocationHandeler.fromLoc(splayer.getLocation()));
-						}
-				else
-				{
-					s.sendMessage("Only Faction Founders can execute this command");
-				}
-
-
 			}
 			else
 			{
