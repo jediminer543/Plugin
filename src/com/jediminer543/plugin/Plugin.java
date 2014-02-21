@@ -21,42 +21,71 @@ import com.jediminer543.plugin.listeners.PlayerListener;
 
 public final class Plugin extends JavaPlugin 
 {
+	/**
+	 * A list of players on server
+	 */
 	public static List<Player> playerList = new ArrayList<Player>();
+	
+	/**
+	 * The faction config
+	 */
 	CustomConfig FactionConfigHandeler = new CustomConfig(this, "factions.yml");
+	
+	/**
+	 * The location config
+	 */
 	CustomConfig WarpConfigHandeler = new CustomConfig(this, "locations.yml");
 	
+	/**
+	 * Called when the plugin loads up
+	 */
     @Override
     public void onEnable(){
+    	//Tells the console the plugin is loading
     	getLogger().info("Plugin Loading Please Wait");
+    	//Initiates the configs
     	FactionConfigHandeler = new CustomConfig(this, "factions.yml");
     	WarpConfigHandeler = new CustomConfig(this, "locations.yml");
     	WarpConfigHandeler.reloadConfig();
     	FactionConfigHandeler.reloadConfig();
+    	//Loads a list of players on the server
     	if (this.getConfig().getBoolean("Plugin.Config.NotReload") == false)
     	{
     		this.saveDefaultConfig();
     	}
+    	/*Registers PlayerEventHadndler
+    	 * @see com.jediminer543.plugin.listeners.PlayerListener
+    	 */
     	Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
     	for (Player player : this.getServer().getOnlinePlayers()) {
     		 playerList.add(player);
     	}
     }
  
+    /**
+     * Called when the server shuts down
+     */
     @Override
     public void onDisable() {
+    	//Alerts Console
     	getLogger().info("Plugin shutting down, plese wait");
     	getLogger().info("Writing configs");
-    	WarpConfigHandeler.saveConfig();
-    	FactionConfigHandeler.saveConfig();
+    	//Writes Configs
+    	this.save();
     	
 
     }
     
+    /**
+     * Saves plugin data
+     */
     public void save()
     {
+    	//Saves Configs
     	this.saveConfig();
     	WarpConfigHandeler.saveConfig();
     	FactionConfigHandeler.saveConfig();
+    	//Writes Player Location To Thier Player Config
     	for (Player player : playerList) {
     		FileConfiguration pconfig = PlayerConfigHandeler.getPlayerConfig(player,this).getConfig();
     		pconfig.set("Backup.Loc", LocationHandeler.fromLoc(player.getLocation()));
@@ -64,9 +93,15 @@ public final class Plugin extends JavaPlugin
    	}
     }
     
+    /**
+     * Handles commands
+     * Some Commands are passed to separate handlers
+     * @return Command Valid (not successful)
+     */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2, String[] args)
 	{
+		//Varifies if sender is player
 		boolean player = false;
 		Player senderp = null;
 		if (sender instanceof Player)
@@ -74,12 +109,19 @@ public final class Plugin extends JavaPlugin
 			player = true;
 			senderp = (Player) sender;
 		}
+		
+		//standardises command
 		switch (cmd.getName().toLowerCase())
 		{
 			case "plugin":
 				return pluginHandeler(sender, args, this);
 			case "faction":
 				return factionHandeler(sender, args, FactionConfigHandeler.getConfig(), this);
+			
+				/*
+				 * Handles Random command 
+				 * Sends player to random location
+				 */ 
 			case "random":
 				if (player)
 				{
@@ -138,6 +180,7 @@ public final class Plugin extends JavaPlugin
 					sender.sendMessage("Only players can execute this command");
 				}			
 				break;
+				//Handels Spawn Command
 			case "spawn":
 				if(player)
 				{
@@ -154,7 +197,7 @@ public final class Plugin extends JavaPlugin
 				{
 					if(args.length == 1)
 					{
-						
+						// tpa code here
 					}
 					else
 					{
@@ -172,6 +215,15 @@ public final class Plugin extends JavaPlugin
 		return false;
 	}
 	
+	/**
+	 * TODO Move to own class
+	 * 
+	 * @param s Command sender
+	 * @param args Command arguments
+	 * @param config Faction configuration file
+	 * @param plugn The plugin (pass 'this')
+	 * @return Did sender use correct syntax for command
+	 */
 	public static boolean factionHandeler(CommandSender s, String[] args, FileConfiguration config, JavaPlugin plugin)
 	{
 		boolean player = false;
@@ -195,11 +247,13 @@ public final class Plugin extends JavaPlugin
 						}
 				else
 				{
+					//Adds Faction To Faction Config
 					List<String> l = config.getStringList("Factions.List");
 					l.add(args[1]);
 					config.set("Factions.List", l);
 					if (player)
 					{
+						//Adds Player Data to Faction Config
 					config.set(args[1]+".Founder", s.getName());
 					List<String> players = config.getStringList("args[1]+.Members");
 					players.add(splayer.getName());
@@ -250,7 +304,39 @@ public final class Plugin extends JavaPlugin
 				{
 					s.sendMessage("Only Faction Founders can execute this command");
 				}
-				
+			}
+		case "join":
+			if (player)
+			{
+				if (!(args.length == 2))
+				{
+					s.sendMessage("You didn't specify a faction");
+					s.sendMessage("Correct usage /faction join <faction to join>");
+				}
+				else
+				{
+					if (config.getBoolean(args[1]+".Joinable", false))
+					{
+						CustomConfig joinerconfig = PlayerConfigHandeler.getPlayerConfig(splayer, plugin);
+						joinerconfig.getConfig().set("Faction.Rank", "Normal");
+						joinerconfig.getConfig().set("Faction", args[1]);
+						joinerconfig.saveConfig();
+					}
+					else
+					{
+						if (config.getBoolean(args[1]+"."+s.getName()+".Invited", false))
+						{
+							CustomConfig joinerconfig = PlayerConfigHandeler.getPlayerConfig(splayer, plugin);
+							joinerconfig.getConfig().set("Faction.Rank", "Normal");
+							joinerconfig.getConfig().set("Faction", args[1]);
+							joinerconfig.saveConfig();
+						}
+						else
+						{
+							s.sendMessage("This Faction is unjoinable");
+						}
+					}
+				}
 			}
 			else
 			{
@@ -263,6 +349,14 @@ public final class Plugin extends JavaPlugin
 		return false;
 	}
 
+	/**
+	 * TODO move to own class
+	 * 
+	 * @param s The Commend Sender
+	 * @param args command arguments
+	 * @param plugin The Plugin ( Pass 'this')
+	 * @return Did command use correct syntax
+	 */
 	public static boolean pluginHandeler(CommandSender s, String[] args, Plugin plugin)
 	{
 		switch (args[0])
