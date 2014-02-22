@@ -363,6 +363,44 @@ public final class Plugin extends JavaPlugin
 				s.sendMessage("Only players can execute this command");
 			}
 			return true;
+		case "open":
+			if (player)
+			{
+			FileConfiguration playerconfig = PlayerConfigHandeler.getPlayerConfig(splayer, plugin).getConfig();
+			if (playerconfig.getString("Faction.Rank", "Normal") == "Founder")
+					{
+				config.set(playerconfig.getString("Faction")+".Joinable", true);
+					}
+			else
+			{
+				s.sendMessage("Only Faction Founders can execute this command");
+			}
+			}
+			else
+			{
+				s.sendMessage("Only players can execute this command");
+				s.sendMessage("Non player implementation will be implemented soon");
+			}
+			return true;
+		case "close":
+			if (player)
+			{
+			FileConfiguration playerconfig = PlayerConfigHandeler.getPlayerConfig(splayer, plugin).getConfig();
+			if (playerconfig.getString("Faction.Rank", "Normal") == "Founder")
+					{
+				config.set(playerconfig.getString("Faction")+".Joinable", true);
+					}
+			else
+			{
+				s.sendMessage("Only Faction Founders can execute this command");
+			}
+			}
+			else
+			{
+				s.sendMessage("Only players can execute this command");
+				s.sendMessage("Non player implementation will be implemented soon");
+			}
+			return true;
 		default:
 			s.sendMessage("Invalid command, use /faction help for more info");
 		}
