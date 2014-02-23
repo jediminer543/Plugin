@@ -339,6 +339,7 @@ public final class Plugin extends JavaPlugin
 				if (playerconfig.getString("Faction.Rank", "Normal") == "Founder")
 						{
 					config.set(playerconfig.getString("Faction")+".Home.Loc", LocationHandeler.fromLoc(splayer.getLocation()));
+					s.sendMessage("The faction home location is now set");
 						}
 				else
 				{
@@ -370,6 +371,7 @@ public final class Plugin extends JavaPlugin
 			if (playerconfig.getString("Faction.Rank", "Normal") == "Founder")
 					{
 				config.set(playerconfig.getString("Faction")+".Joinable", true);
+				s.sendMessage("The faction is now open use /faction close to close");
 					}
 			else
 			{
@@ -389,6 +391,7 @@ public final class Plugin extends JavaPlugin
 			if (playerconfig.getString("Faction.Rank", "Normal") == "Founder")
 					{
 				config.set(playerconfig.getString("Faction")+".Joinable", true);
+				s.sendMessage("The faction is now closed use /faction open to open");
 					}
 			else
 			{

@@ -1,6 +1,6 @@
 name: Plugin
 main: com.jediminer543.plugin.Plugin
-version: 0.0.3
+version: 0.0.4
 permissions:
     home.*:
       description: Gives access to the home and base system
