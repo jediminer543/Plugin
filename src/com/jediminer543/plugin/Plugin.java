@@ -59,6 +59,7 @@ public final class Plugin extends JavaPlugin
     	 * @see com.jediminer543.plugin.listeners.PlayerListener
     	 */
     	Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
+    	Bukkit.getServer().getPluginManager().registerEvents(new ClaimListener(ClaimConfigHandeler), this);
 
     }
  
@@ -250,6 +251,7 @@ public final class Plugin extends JavaPlugin
 				if (config.getString(LocationHandeler.toConfigHandler(claim)+".owner", null) == null)
 				{
 				config.set(LocationHandeler.toConfigHandler(claim)+".owner", splayer.getName());
+				config.set(LocationHandeler.toConfigHandler(claim)+".claimed", true);
 				}
 				else
 				{
@@ -266,7 +268,7 @@ public final class Plugin extends JavaPlugin
 			{
 				Location l =splayer.getLocation();
 				Chunk claim = l.getChunk();
-				if (config.getString(LocationHandeler.toConfigHandler(claim)+".owner", null) == null)
+				if (config.getBoolean(LocationHandeler.toConfigHandler(claim)+".claimed", false) == false)
 				{
 					s.sendMessage("This chunk is unclaimed");
 				}
