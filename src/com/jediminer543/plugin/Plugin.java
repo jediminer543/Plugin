@@ -6,7 +6,9 @@ import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -21,10 +23,6 @@ import com.jediminer543.plugin.listeners.PlayerListener;
 
 public final class Plugin extends JavaPlugin 
 {
-	/**
-	 * A list of players on server
-	 */
-	public static List<Player> playerList = new ArrayList<Player>();
 	
 	/**
 	 * The faction config
@@ -56,10 +54,7 @@ public final class Plugin extends JavaPlugin
     	/*Registers PlayerEventHadndler
     	 * @see com.jediminer543.plugin.listeners.PlayerListener
     	 */
-    	Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
-    	for (Player player : this.getServer().getOnlinePlayers()) {
-    		 playerList.add(player);
-    	}
+
     }
  
     /**
@@ -85,10 +80,15 @@ public final class Plugin extends JavaPlugin
     	this.saveConfig();
     	WarpConfigHandeler.saveConfig();
     	FactionConfigHandeler.saveConfig();
+    	FileConfiguration pluginconfig = getConfig();
+    	List<String> playerlist = pluginconfig.getStringList("Server.Players.List");
     	//Writes Player Location To Thier Player Config
-    	for (Player player : playerList) {
-    		FileConfiguration pconfig = PlayerConfigHandeler.getPlayerConfig(player,this).getConfig();
-    		pconfig.set("Backup.Loc", LocationHandeler.fromLoc(player.getLocation()));
+    	for (String playername : playerlist) {
+    		OfflinePlayer oflineplayer = Bukkit.getOfflinePlayer(playername);
+    		Player player = oflineplayer.getPlayer();
+    		CustomConfig pconfig = PlayerConfigHandeler.getPlayerConfig((Player) player,this);
+    		pconfig.getConfig().set("Backup.Loc", LocationHandeler.fromLoc(player.getLocation()));
+    		pconfig.saveConfig();
     		
    	}
     }
@@ -117,7 +117,8 @@ public final class Plugin extends JavaPlugin
 				return pluginHandeler(sender, args, this);
 			case "faction":
 				return factionHandeler(sender, args, FactionConfigHandeler.getConfig(), this);
-			
+			case "claim":
+				return claimHandler(sender, args, this);
 				/*
 				 * Handles Random command 
 				 * Sends player to random location
@@ -220,6 +221,46 @@ public final class Plugin extends JavaPlugin
 	 * 
 	 * @param s Command sender
 	 * @param args Command arguments
+	 * @param plugn The plugin (pass 'this')
+	 * @return Did sender use correct syntax for command
+	 */
+	public boolean claimHandler(CommandSender s, String[] args, Plugin plugin) 
+	{
+		boolean player = false;
+		Player splayer = null;
+		CustomConfig sconfig = null;
+		if (s instanceof Player)
+		{
+			player = true;
+			splayer = (Player) s;
+			sconfig = PlayerConfigHandeler.getPlayerConfig(splayer, plugin);
+		}
+		switch (args[0].toLowerCase())
+		{
+		case "here":
+			if (player)
+			{
+				//Claim Stuff Here
+				//sconfig.getConfig().set("Claim", arg1);
+			}
+			else
+			{
+				s.sendMessage("Only players can execute this command");
+			}
+			return true;
+		
+		default:
+			s.sendMessage("Invalid command, use /faction help for more info");
+		}
+		sconfig.saveConfig();
+		return false;
+	}
+
+	/**
+	 * TODO Move to own class
+	 * 
+	 * @param s Command sender
+	 * @param args Command arguments
 	 * @param config Faction configuration file
 	 * @param plugn The plugin (pass 'this')
 	 * @return Did sender use correct syntax for command
@@ -233,7 +274,7 @@ public final class Plugin extends JavaPlugin
 			player = true;
 			splayer = (Player) s;
 		}
-		switch (args[0])
+		switch (args[0].toLowerCase())
 		{
 		case "found":
 			if (args.length == 2)
@@ -420,7 +461,7 @@ public final class Plugin extends JavaPlugin
 	 */
 	public static boolean pluginHandeler(CommandSender s, String[] args, Plugin plugin)
 	{
-		switch (args[0])
+		switch (args[0].toLowerCase())
 		{
 			case "save":
 				plugin.save();
