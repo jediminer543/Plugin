@@ -36,4 +36,10 @@ commands:
       usage: /faction <command> [command parameters]
       permission: location.*
       permission-message: You need location control to use this.
+  claim:
+      description: Sends you back to your spawn.
+      usage: /claim <command> [command parameters]
+      permission: location.*
+      permission-message: You need location control to use this.
+
     

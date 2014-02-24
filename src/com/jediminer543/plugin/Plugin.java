@@ -123,7 +123,7 @@ public final class Plugin extends JavaPlugin
 			case "faction":
 				return factionHandeler(sender, args, FactionConfigHandeler.getConfig(), this);
 			case "claim":
-				return claimHandler(sender, args, this);
+				return claimHandler(sender, args, ClaimConfigHandeler.getConfig(), this);
 				/*
 				 * Handles Random command 
 				 * Sends player to random location
@@ -247,7 +247,33 @@ public final class Plugin extends JavaPlugin
 			{
 				Location l =splayer.getLocation();
 				Chunk claim = l.getChunk();
+				if (config.getString(LocationHandeler.toConfigHandler(claim)+".owner", null) == null)
+				{
 				config.set(LocationHandeler.toConfigHandler(claim)+".owner", splayer.getName());
+				}
+				else
+				{
+					s.sendMessage("Chunk already claimed");
+				}
+			}
+			else
+			{
+				s.sendMessage("Only players can execute this command");
+			}
+			return true;
+		case "info":
+			if (player)
+			{
+				Location l =splayer.getLocation();
+				Chunk claim = l.getChunk();
+				if (config.getString(LocationHandeler.toConfigHandler(claim)+".owner", null) == null)
+				{
+					s.sendMessage("This chunk is unclaimed");
+				}
+				else
+				{
+					s.sendMessage("This chunk is owned by: " + config.getString(LocationHandeler.toConfigHandler(claim)+".owner"));
+				}
 			}
 			else
 			{
@@ -256,7 +282,7 @@ public final class Plugin extends JavaPlugin
 			return true;
 		
 		default:
-			s.sendMessage("Invalid command, use /faction help for more info");
+			s.sendMessage("Invalid command, use '/claim help' for more info");
 		}
 		sconfig.saveConfig();
 		return false;
@@ -452,7 +478,7 @@ public final class Plugin extends JavaPlugin
 			}
 			return true;
 		default:
-			s.sendMessage("Invalid command, use /faction help for more info");
+			s.sendMessage("Invalid command, use '/faction help' for more info");
 		}
 		return false;
 	}
