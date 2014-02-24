@@ -41,7 +41,6 @@ public class PlayerListener implements Listener
     		plugin.saveConfig();
     		plugin.getLogger().info("New Player added to config");
     	}
-        Plugin.playerList.add(p);
     }
     
     @EventHandler

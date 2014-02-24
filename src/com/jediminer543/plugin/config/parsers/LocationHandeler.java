@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 
 public class LocationHandeler {
@@ -29,6 +30,15 @@ public class LocationHandeler {
 		if (!(s == null))
 		{
 			return new Location(Bukkit.getWorld(s.get(0)), Integer.valueOf(s.get(1)), Integer.valueOf(s.get(2)), Integer.valueOf(s.get(3)));
+		}
+		return null;
+	}
+	
+	public static String toConfigHandler(Chunk c)
+	{
+		if (!(c == null))
+		{
+			return c.getWorld()+"."+c.getX()+"."+c.getZ();
 		}
 		return null;
 	}

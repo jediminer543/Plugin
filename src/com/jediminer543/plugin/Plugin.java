@@ -1,14 +1,13 @@
 package com.jediminer543.plugin;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -35,6 +34,11 @@ public final class Plugin extends JavaPlugin
 	CustomConfig WarpConfigHandeler = new CustomConfig(this, "locations.yml");
 	
 	/**
+	 * The claim config
+	 */
+	CustomConfig ClaimConfigHandeler = new CustomConfig(this, "locations.yml");
+	
+	/**
 	 * Called when the plugin loads up
 	 */
     @Override
@@ -54,6 +58,7 @@ public final class Plugin extends JavaPlugin
     	/*Registers PlayerEventHadndler
     	 * @see com.jediminer543.plugin.listeners.PlayerListener
     	 */
+    	Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
 
     }
  
@@ -224,7 +229,7 @@ public final class Plugin extends JavaPlugin
 	 * @param plugn The plugin (pass 'this')
 	 * @return Did sender use correct syntax for command
 	 */
-	public boolean claimHandler(CommandSender s, String[] args, Plugin plugin) 
+	public static boolean claimHandler(CommandSender s, String[] args, FileConfiguration config, JavaPlugin plugin)
 	{
 		boolean player = false;
 		Player splayer = null;
@@ -240,8 +245,9 @@ public final class Plugin extends JavaPlugin
 		case "here":
 			if (player)
 			{
-				//Claim Stuff Here
-				//sconfig.getConfig().set("Claim", arg1);
+				Location l =splayer.getLocation();
+				Chunk claim = l.getChunk();
+				config.set(LocationHandeler.toConfigHandler(claim)+".owner", splayer.getName());
 			}
 			else
 			{
