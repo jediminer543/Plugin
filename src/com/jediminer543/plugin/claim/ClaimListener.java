@@ -7,6 +7,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
 
 import com.jediminer543.plugin.config.parsers.LocationHandeler;
 
@@ -52,6 +54,33 @@ public class ClaimListener implements Listener
 			event.getPlayer().sendMessage("This chunk is claimed by: "+config.getConfig().getString(LocationHandeler.toConfigHandler(blockChunk)+".owner")+" thus you cant place blocks here.");
 			event.setCancelled(true);
 			}
+		}
+		
+    }
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+    public void onFluidPlaced(PlayerBucketEmptyEvent event)
+    {
+		Block block = event.getBlockClicked();
+		Chunk blockChunk = block.getChunk();
+		if (config.getClaimed(blockChunk))
+		{
+			if(!config.isTrusted(blockChunk, event.getPlayer()))
+			{
+			event.getPlayer().sendMessage("This chunk is claimed by: "+config.getConfig().getString(LocationHandeler.toConfigHandler(blockChunk)+".owner")+" thus you cant empty buckets here.");
+			event.setCancelled(true);
+			}
+		}
+		
+    }
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+    public void onCreatureSpawn(CreatureSpawnEvent event)
+    {
+		Chunk blockChunk = event.getEntity().getLocation().getChunk();
+		if (config.getClaimed(blockChunk))
+		{
+			event.setCancelled(true);
 		}
 		
     }

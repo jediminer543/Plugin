@@ -50,8 +50,10 @@ public final class Plugin extends JavaPlugin
     	//Initiates the configs
     	FactionConfigHandeler = new CustomConfig(this, "factions.yml");
     	WarpConfigHandeler = new CustomConfig(this, "locations.yml");
+    	ClaimConfigHandeler = new ClaimConfig(this, "claims.yml");
     	WarpConfigHandeler.reloadConfig();
     	FactionConfigHandeler.reloadConfig();
+    	ClaimConfigHandeler.reloadConfig();
     	//Loads a list of players on the server
     	if (this.getConfig().getBoolean("Plugin.Config.NotReload") == false)
     	{
@@ -88,6 +90,7 @@ public final class Plugin extends JavaPlugin
     	this.saveConfig();
     	WarpConfigHandeler.saveConfig();
     	FactionConfigHandeler.saveConfig();
+    	ClaimConfigHandeler.saveConfig();
     	FileConfiguration pluginconfig = getConfig();
     	List<String> playerlist = pluginconfig.getStringList("Server.Players.List");
     	//Writes Player Location To Thier Player Config
