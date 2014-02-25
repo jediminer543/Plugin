@@ -2,12 +2,15 @@ package com.jediminer543.plugin.claim;
 
 import org.bukkit.Chunk;
 import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
+import org.bukkit.block.DoubleChest;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 
 import com.jediminer543.plugin.config.parsers.LocationHandeler;
@@ -83,5 +86,27 @@ public class ClaimListener implements Listener
 			event.setCancelled(true);
 		}
 		
+    }
+	
+	/*
+	@EventHandler(priority = EventPriority.HIGHEST)
+    public void onEntityDamage(EntityDamageEvent event)
+    {
+		System.out.println("Claim Event Detected");
+		Chunk blockChunk = event.getEntity().getLocation().getChunk();
+		DamageCause dc = event.getCause();
+		if (config.getClaimed(blockChunk))
+		{
+			System.out.println("Spawn Detected in claimed chunk blocked");
+			event.setCancelled(true);
+		}
+		
+    }
+    */
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+    public void onInventoryOpenEvent(InventoryOpenEvent e){
+		Chunk blockChunk = e.getPlayer().getLocation().getChunk();
+
     }
 }

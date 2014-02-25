@@ -98,7 +98,7 @@ public final class Plugin extends JavaPlugin
     		OfflinePlayer oflineplayer = Bukkit.getOfflinePlayer(playername);
     		Player player = oflineplayer.getPlayer();
     		CustomConfig pconfig = PlayerConfigHandeler.getPlayerConfig((Player) player,this);
-    		pconfig.getConfig().set("Backup.Loc", LocationHandeler.fromLoc(player.getLocation()));
+    		//pconfig.getConfig().set("Backup.Loc", LocationHandeler.fromLoc(player.getLocation()));
     		pconfig.saveConfig();
     		
    	}
@@ -255,8 +255,8 @@ public final class Plugin extends JavaPlugin
 				Chunk claim = l.getChunk();
 				if (!config.getClaimed(claim))
 				{
-				config.getConfig().set(LocationHandeler.toConfigHandler(claim)+".owner", splayer.getName());
-				config.getConfig().set(LocationHandeler.toConfigHandler(claim)+".claimed", true);
+					config.getConfig().set(LocationHandeler.toConfigHandler(claim)+".owner", splayer.getName());
+					config.getConfig().set(LocationHandeler.toConfigHandler(claim)+".claimed", true);
 				}
 				else
 				{
