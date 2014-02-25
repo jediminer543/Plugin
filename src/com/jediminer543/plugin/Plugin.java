@@ -14,6 +14,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.jediminer543.plugin.claim.ClaimConfig;
+import com.jediminer543.plugin.claim.ClaimListener;
 import com.jediminer543.plugin.config.PlayerConfigHandeler;
 import com.jediminer543.plugin.config.parsers.LocationHandeler;
 import com.jediminer543.plugin.listeners.PlayerListener;
@@ -36,7 +38,7 @@ public final class Plugin extends JavaPlugin
 	/**
 	 * The claim config
 	 */
-	CustomConfig ClaimConfigHandeler = new CustomConfig(this, "locations.yml");
+	ClaimConfig ClaimConfigHandeler = new ClaimConfig(this, "claims.yml");
 	
 	/**
 	 * Called when the plugin loads up
@@ -124,7 +126,7 @@ public final class Plugin extends JavaPlugin
 			case "faction":
 				return factionHandeler(sender, args, FactionConfigHandeler.getConfig(), this);
 			case "claim":
-				return claimHandler(sender, args, ClaimConfigHandeler.getConfig(), this);
+				return claimHandler(sender, args, ClaimConfigHandeler, this);
 				/*
 				 * Handles Random command 
 				 * Sends player to random location
@@ -230,7 +232,7 @@ public final class Plugin extends JavaPlugin
 	 * @param plugn The plugin (pass 'this')
 	 * @return Did sender use correct syntax for command
 	 */
-	public static boolean claimHandler(CommandSender s, String[] args, FileConfiguration config, JavaPlugin plugin)
+	public static boolean claimHandler(CommandSender s, String[] args, ClaimConfig config, JavaPlugin plugin)
 	{
 		boolean player = false;
 		Player splayer = null;
@@ -248,10 +250,10 @@ public final class Plugin extends JavaPlugin
 			{
 				Location l =splayer.getLocation();
 				Chunk claim = l.getChunk();
-				if (config.getString(LocationHandeler.toConfigHandler(claim)+".owner", null) == null)
+				if (!config.getClaimed(claim))
 				{
-				config.set(LocationHandeler.toConfigHandler(claim)+".owner", splayer.getName());
-				config.set(LocationHandeler.toConfigHandler(claim)+".claimed", true);
+				config.getConfig().set(LocationHandeler.toConfigHandler(claim)+".owner", splayer.getName());
+				config.getConfig().set(LocationHandeler.toConfigHandler(claim)+".claimed", true);
 				}
 				else
 				{
@@ -268,13 +270,13 @@ public final class Plugin extends JavaPlugin
 			{
 				Location l =splayer.getLocation();
 				Chunk claim = l.getChunk();
-				if (config.getBoolean(LocationHandeler.toConfigHandler(claim)+".claimed", false) == false)
+				if (!config.getClaimed(claim))
 				{
 					s.sendMessage("This chunk is unclaimed");
 				}
 				else
 				{
-					s.sendMessage("This chunk is owned by: " + config.getString(LocationHandeler.toConfigHandler(claim)+".owner"));
+					s.sendMessage("This chunk is owned by: " + config.getConfig().getString(LocationHandeler.toConfigHandler(claim)+".owner"));
 				}
 			}
 			else
@@ -282,7 +284,37 @@ public final class Plugin extends JavaPlugin
 				s.sendMessage("Only players can execute this command");
 			}
 			return true;
-		
+		case "trust":
+		{
+			if (!(args.length == 2))
+			{
+				s.sendMessage("You didn't specify a player");
+				s.sendMessage("Correct usage /claim trust <faction to join>");
+			}
+			else
+			{
+			if (player)
+			{
+				Location l =splayer.getLocation();
+				Chunk claim = l.getChunk();
+				if (config.isOwner(claim, splayer))
+				{
+					List<String> trustedlist = config.getConfig().getStringList(LocationHandeler.toConfigHandler(claim)+".trusted");
+					trustedlist.add(args[1]);
+					config.getConfig().set(LocationHandeler.toConfigHandler(claim)+".trusted", trustedlist);
+				}
+				else
+				{
+					s.sendMessage("This chunk is owned by: " + config.getConfig().getString(LocationHandeler.toConfigHandler(claim)+".owner"));
+				}
+			}
+			else
+			{
+				s.sendMessage("Only players can execute this command");
+			}
+			}
+			return true;
+		}
 		default:
 			s.sendMessage("Invalid command, use '/claim help' for more info");
 		}
