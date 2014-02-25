@@ -10,6 +10,7 @@ import org.bukkit.block.DoubleChest;
 import org.bukkit.block.Dropper;
 import org.bukkit.block.Furnace;
 import org.bukkit.block.Hopper;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.minecart.StorageMinecart;
@@ -123,6 +124,7 @@ public class ClaimListener implements Listener
 			{
 				if(!(config.isTrusted(c.getChunk(),(Player) event.getPlayer())))
 					{
+					((CommandSender) event.getPlayer()).sendMessage("This chunk is claimed by: "+config.getConfig().getString(LocationHandeler.toConfigHandler(c.getLocation().getChunk())+".owner")+" thus you cant steal their items.");
 					event.setCancelled(true);
 					}
 			}
@@ -134,6 +136,7 @@ public class ClaimListener implements Listener
 			{
 				if(!(config.isTrusted(c.getLocation().getChunk(),(Player) event.getPlayer())))
 					{
+					((CommandSender) event.getPlayer()).sendMessage("This chunk is claimed by: "+config.getConfig().getString(LocationHandeler.toConfigHandler(c.getLocation().getChunk())+".owner")+" thus you cant steal their items.");
 					event.setCancelled(true);
 					}
 			}
@@ -145,6 +148,7 @@ public class ClaimListener implements Listener
 			{
 				if(!(config.isTrusted(c.getChunk(),(Player) event.getPlayer())))
 					{
+					((CommandSender) event.getPlayer()).sendMessage("This chunk is claimed by: "+config.getConfig().getString(LocationHandeler.toConfigHandler(c.getLocation().getChunk())+".owner")+" thus you cant steal their items.");
 					event.setCancelled(true);
 					}
 			}
@@ -156,6 +160,7 @@ public class ClaimListener implements Listener
 			{
 				if(!(config.isTrusted(c.getChunk(),(Player) event.getPlayer())))
 					{
+					((CommandSender) event.getPlayer()).sendMessage("This chunk is claimed by: "+config.getConfig().getString(LocationHandeler.toConfigHandler(c.getLocation().getChunk())+".owner")+" thus you cant steal their items.");
 					event.setCancelled(true);
 					}
 			}
@@ -167,6 +172,7 @@ public class ClaimListener implements Listener
 			{
 				if(!(config.isTrusted(c.getChunk(),(Player) event.getPlayer())))
 					{
+					((CommandSender) event.getPlayer()).sendMessage("This chunk is claimed by: "+config.getConfig().getString(LocationHandeler.toConfigHandler(c.getLocation().getChunk())+".owner")+" thus you cant steal their items.");
 					event.setCancelled(true);
 					}
 			}
@@ -178,6 +184,7 @@ public class ClaimListener implements Listener
 			{
 				if(!(config.isTrusted(c.getChunk(),(Player) event.getPlayer())))
 					{
+					((CommandSender) event.getPlayer()).sendMessage("This chunk is claimed by: "+config.getConfig().getString(LocationHandeler.toConfigHandler(c.getLocation().getChunk())+".owner")+" thus you cant steal their items.");
 					event.setCancelled(true);
 					}
 			}
@@ -189,6 +196,7 @@ public class ClaimListener implements Listener
 			{
 				if(!(config.isTrusted(c.getChunk(),(Player) event.getPlayer())))
 					{
+					((CommandSender) event.getPlayer()).sendMessage("This chunk is claimed by: "+config.getConfig().getString(LocationHandeler.toConfigHandler(c.getLocation().getChunk())+".owner")+" thus you cant steal their items.");
 					event.setCancelled(true);
 					}
 			}
@@ -200,6 +208,7 @@ public class ClaimListener implements Listener
 			{
 				if(!(config.isTrusted(c.getChunk(),(Player) event.getPlayer())))
 					{
+					((CommandSender) event.getPlayer()).sendMessage("This chunk is claimed by: "+config.getConfig().getString(LocationHandeler.toConfigHandler(c.getLocation().getChunk())+".owner")+" thus you cant steal their items.");
 					event.setCancelled(true);
 					}
 			}
@@ -211,6 +220,7 @@ public class ClaimListener implements Listener
 			{
 				if(!(config.isTrusted(c.getLocation().getChunk(),(Player) event.getPlayer())))
 					{
+					((CommandSender) event.getPlayer()).sendMessage("This chunk is claimed by: "+config.getConfig().getString(LocationHandeler.toConfigHandler(c.getLocation().getChunk())+".owner")+" thus you cant steal their items.");
 					event.setCancelled(true);
 					}
 			}
@@ -222,6 +232,7 @@ public class ClaimListener implements Listener
 			{
 				if(!(config.isTrusted(c.getLocation().getChunk(),(Player) event.getPlayer())))
 					{
+					((CommandSender) event.getPlayer()).sendMessage("This chunk is claimed by: "+config.getConfig().getString(LocationHandeler.toConfigHandler(c.getLocation().getChunk())+".owner")+" thus you cant steal their items.");
 					event.setCancelled(true);
 					}
 			}
@@ -233,6 +244,7 @@ public class ClaimListener implements Listener
 			{
 				if(!(config.isTrusted(c.getLocation().getChunk(),(Player) event.getPlayer())))
 					{
+					((CommandSender) event.getPlayer()).sendMessage("This chunk is claimed by: "+config.getConfig().getString(LocationHandeler.toConfigHandler(c.getLocation().getChunk())+".owner")+" thus you cant steal their items.");
 					event.setCancelled(true);
 					}
 			}
