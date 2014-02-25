@@ -1,9 +1,19 @@
 package com.jediminer543.plugin.claim;
 
 import org.bukkit.Chunk;
+import org.bukkit.block.Beacon;
 import org.bukkit.block.Block;
+import org.bukkit.block.BrewingStand;
 import org.bukkit.block.Chest;
+import org.bukkit.block.Dispenser;
 import org.bukkit.block.DoubleChest;
+import org.bukkit.block.Dropper;
+import org.bukkit.block.Furnace;
+import org.bukkit.block.Hopper;
+import org.bukkit.entity.Horse;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.minecart.StorageMinecart;
+import org.bukkit.entity.minecart.HopperMinecart;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -105,8 +115,130 @@ public class ClaimListener implements Listener
     */
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
-    public void onInventoryOpenEvent(InventoryOpenEvent e){
-		Chunk blockChunk = e.getPlayer().getLocation().getChunk();
+    public void onInventoryOpenEvent(InventoryOpenEvent event){
+		if (event.getInventory().getHolder() instanceof Chest)
+		{
+			Chest c = (Chest) event.getInventory().getHolder();
+			if(config.getClaimed(c.getChunk()));
+			{
+				if(!(config.isTrusted(c.getChunk(),(Player) event.getPlayer())))
+					{
+					event.setCancelled(true);
+					}
+			}
+		}
+		else if (event.getInventory().getHolder() instanceof DoubleChest)
+		{
+			DoubleChest c = (DoubleChest) event.getInventory().getHolder();
+			if(config.getClaimed(c.getLocation().getChunk()));
+			{
+				if(!(config.isTrusted(c.getLocation().getChunk(),(Player) event.getPlayer())))
+					{
+					event.setCancelled(true);
+					}
+			}
+		}
+		else if (event.getInventory().getHolder() instanceof Beacon)
+		{
+			Beacon c = (Beacon) event.getInventory().getHolder();
+			if(config.getClaimed(c.getChunk()));
+			{
+				if(!(config.isTrusted(c.getChunk(),(Player) event.getPlayer())))
+					{
+					event.setCancelled(true);
+					}
+			}
+		}
+		else if (event.getInventory().getHolder() instanceof BrewingStand)
+		{
+			BrewingStand c = (BrewingStand) event.getInventory().getHolder();
+			if(config.getClaimed(c.getChunk()));
+			{
+				if(!(config.isTrusted(c.getChunk(),(Player) event.getPlayer())))
+					{
+					event.setCancelled(true);
+					}
+			}
+		}
+		else if (event.getInventory().getHolder() instanceof Dispenser)
+		{
+			Dispenser c = (Dispenser) event.getInventory().getHolder();
+			if(config.getClaimed(c.getChunk()));
+			{
+				if(!(config.isTrusted(c.getChunk(),(Player) event.getPlayer())))
+					{
+					event.setCancelled(true);
+					}
+			}
+		}
+		else if (event.getInventory().getHolder() instanceof Furnace)
+		{
+			Furnace c = (Furnace) event.getInventory().getHolder();
+			if(config.getClaimed(c.getChunk()));
+			{
+				if(!(config.isTrusted(c.getChunk(),(Player) event.getPlayer())))
+					{
+					event.setCancelled(true);
+					}
+			}
+		}
+		else if (event.getInventory().getHolder() instanceof Dropper)
+		{
+			Dropper c = (Dropper) event.getInventory().getHolder();
+			if(config.getClaimed(c.getChunk()));
+			{
+				if(!(config.isTrusted(c.getChunk(),(Player) event.getPlayer())))
+					{
+					event.setCancelled(true);
+					}
+			}
+		}
+		else if (event.getInventory().getHolder() instanceof Hopper)
+		{
+			Hopper c = (Hopper) event.getInventory().getHolder();
+			if(config.getClaimed(c.getChunk()));
+			{
+				if(!(config.isTrusted(c.getChunk(),(Player) event.getPlayer())))
+					{
+					event.setCancelled(true);
+					}
+			}
+		}
+		else if (event.getInventory().getHolder() instanceof Horse)
+		{
+			Horse c = (Horse) event.getInventory().getHolder();
+			if(config.getClaimed(c.getLocation().getChunk()));
+			{
+				if(!(config.isTrusted(c.getLocation().getChunk(),(Player) event.getPlayer())))
+					{
+					event.setCancelled(true);
+					}
+			}
+		}
+		else if (event.getInventory().getHolder() instanceof HopperMinecart)
+		{
+			HopperMinecart c = (HopperMinecart) event.getInventory().getHolder();
+			if(config.getClaimed(c.getLocation().getChunk()));
+			{
+				if(!(config.isTrusted(c.getLocation().getChunk(),(Player) event.getPlayer())))
+					{
+					event.setCancelled(true);
+					}
+			}
+		}
+		else if (event.getInventory().getHolder() instanceof StorageMinecart)
+		{
+			StorageMinecart c = (StorageMinecart) event.getInventory().getHolder();
+			if(config.getClaimed(c.getLocation().getChunk()));
+			{
+				if(!(config.isTrusted(c.getLocation().getChunk(),(Player) event.getPlayer())))
+					{
+					event.setCancelled(true);
+					}
+			}
+		}
+		
+		
 
     }
 }
