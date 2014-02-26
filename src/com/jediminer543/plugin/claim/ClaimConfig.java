@@ -64,7 +64,7 @@ public class ClaimConfig extends CustomConfig
 		}
 		else
 		{
-		return false;
+		return true;
 		}
 	}
 	

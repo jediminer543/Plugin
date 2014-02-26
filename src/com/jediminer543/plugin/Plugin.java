@@ -318,6 +318,27 @@ public final class Plugin extends JavaPlugin
 			}
 			return true;
 		}
+		case "abandon":
+		{
+			if (player)
+			{
+				Location l =splayer.getLocation();
+				Chunk claim = l.getChunk();
+				if (config.isOwner(claim, splayer))
+				{
+					config.getConfig().set(LocationHandeler.toConfigHandler(claim)+".claimed", false);
+				}
+				else
+				{
+					s.sendMessage("This chunk is owned by: " + config.getConfig().getString(LocationHandeler.toConfigHandler(claim)+".owner"));
+				}
+			}
+			else
+			{
+				s.sendMessage("Only players can execute this command");
+			}
+			return true;
+		}
 		default:
 			s.sendMessage("Invalid command, use '/claim help' for more info");
 		}
