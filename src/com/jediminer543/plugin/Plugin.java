@@ -14,10 +14,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.jediminer543.plugin.claim.ClaimConfig;
-import com.jediminer543.plugin.claim.ClaimListener;
+import com.jediminer543.plugin.config.ClaimConfig;
+import com.jediminer543.plugin.config.CustomConfig;
 import com.jediminer543.plugin.config.PlayerConfigHandeler;
 import com.jediminer543.plugin.config.parsers.LocationHandeler;
+import com.jediminer543.plugin.listeners.ClaimListener;
 import com.jediminer543.plugin.listeners.PlayerListener;
 
 

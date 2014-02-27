@@ -1,4 +1,4 @@
-package com.jediminer543.plugin.claim;
+package com.jediminer543.plugin.listeners;
 
 import org.bukkit.Chunk;
 import org.bukkit.block.Beacon;
@@ -24,6 +24,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 
+import com.jediminer543.plugin.config.ClaimConfig;
 import com.jediminer543.plugin.config.parsers.LocationHandeler;
 
 public class ClaimListener implements Listener 

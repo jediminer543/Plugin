@@ -1,4 +1,4 @@
-package com.jediminer543.plugin;
+package com.jediminer543.plugin.config;
 
 import java.io.File;
 import java.io.IOException;

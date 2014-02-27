@@ -1,4 +1,4 @@
-package com.jediminer543.plugin.claim;
+package com.jediminer543.plugin.config;
 
 import java.util.List;
 
@@ -7,7 +7,6 @@ import org.bukkit.Chunk;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.jediminer543.plugin.CustomConfig;
 import com.jediminer543.plugin.config.parsers.LocationHandeler;
 
 public class ClaimConfig extends CustomConfig

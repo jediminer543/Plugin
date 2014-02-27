@@ -3,6 +3,7 @@ package com.jediminer543.plugin.listeners;
 import java.util.List;
 
 import com.jediminer543.plugin.*;
+import com.jediminer543.plugin.config.CustomConfig;
 import com.jediminer543.plugin.config.PlayerConfigHandeler;
 
 import org.bukkit.Bukkit;
