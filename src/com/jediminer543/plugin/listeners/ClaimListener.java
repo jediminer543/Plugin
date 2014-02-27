@@ -1,5 +1,7 @@
 package com.jediminer543.plugin.listeners;
 
+import java.util.List;
+
 import org.bukkit.Chunk;
 import org.bukkit.block.Beacon;
 import org.bukkit.block.Block;
@@ -19,8 +21,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockBurnEvent;
+import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 
@@ -58,7 +63,7 @@ public class ClaimListener implements Listener
     }
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
-    public void onBlockIgnite(BlockPlaceEvent event)
+    public void onBlockPlace(BlockPlaceEvent event)
     {
 		Block block = event.getBlock();
 		Chunk blockChunk = block.getChunk();
@@ -69,6 +74,57 @@ public class ClaimListener implements Listener
 			event.getPlayer().sendMessage("This chunk is claimed by: "+config.getConfig().getString(LocationHandeler.toConfigHandler(blockChunk)+".owner")+" thus you cant place blocks here.");
 			event.setCancelled(true);
 			}
+		}
+		
+    }
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+    public void onBlockIgnite(BlockIgniteEvent event)
+    {
+		Block block = event.getBlock();
+		Chunk blockChunk = block.getChunk();
+		if (config.getClaimed(blockChunk))
+		{
+			if(!config.isTrusted(blockChunk, event.getPlayer()))
+			{
+			event.getPlayer().sendMessage("This chunk is claimed by: "+config.getConfig().getString(LocationHandeler.toConfigHandler(blockChunk)+".owner")+" thus you cant start fires here.");
+			event.setCancelled(true);
+			}
+		}
+		
+    }
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+    public void onBlockBurn(BlockBurnEvent event)
+    {
+		Block block = event.getBlock();
+		Chunk blockChunk = block.getChunk();
+		if (config.getClaimed(blockChunk))
+		{
+			event.setCancelled(true);
+		}
+		
+    }
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+    public void onCreatureSpawn(CreatureSpawnEvent event)
+    {
+		Chunk blockChunk = event.getEntity().getLocation().getChunk();
+		if (config.getClaimed(blockChunk))
+		{
+			event.setCancelled(true);
+		}
+		
+    }
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+    public void onEntityExplode(EntityExplodeEvent event)
+    {
+		List<Block> block = event.blockList();
+		for (Block DestroyedBlock : block)
+		if (config.getClaimed(DestroyedBlock.getChunk()))
+		{
+			block.remove(DestroyedBlock);
 		}
 		
     }
@@ -89,16 +145,7 @@ public class ClaimListener implements Listener
 		
     }
 	
-	@EventHandler(priority = EventPriority.HIGHEST)
-    public void onCreatureSpawn(CreatureSpawnEvent event)
-    {
-		Chunk blockChunk = event.getEntity().getLocation().getChunk();
-		if (config.getClaimed(blockChunk))
-		{
-			event.setCancelled(true);
-		}
-		
-    }
+
 	
 	/*
 	@EventHandler(priority = EventPriority.HIGHEST)

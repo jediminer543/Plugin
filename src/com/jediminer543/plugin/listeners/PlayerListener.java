@@ -2,7 +2,6 @@ package com.jediminer543.plugin.listeners;
 
 import java.util.List;
 
-import com.jediminer543.plugin.*;
 import com.jediminer543.plugin.config.CustomConfig;
 import com.jediminer543.plugin.config.PlayerConfigHandeler;
 
@@ -10,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -23,7 +23,7 @@ public class PlayerListener implements Listener
 		this.plugin = plugin;
 	}
 	
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onLogin(PlayerLoginEvent event)
     {
     	plugin.getLogger().info("Player logged on");
