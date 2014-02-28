@@ -113,8 +113,8 @@ public final class Plugin extends JavaPlugin
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2, String[] args)
 	{
-		if (args.length == 0)
-			args[0] = "null";
+		//if (args.length == 0)
+		//	args[0] = "null";
 		//Varifies if sender is player
 		boolean player = false;
 		Player senderp = null;

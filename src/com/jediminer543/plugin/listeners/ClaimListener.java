@@ -1,5 +1,6 @@
 package com.jediminer543.plugin.listeners;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Chunk;
@@ -120,13 +121,13 @@ public class ClaimListener implements Listener
 	@EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityExplode(EntityExplodeEvent event)
     {
-		List<Block> block = event.blockList();
-		for (Block DestroyedBlock : block)
-		if (config.getClaimed(DestroyedBlock.getChunk()))
-		{
-			block.remove(DestroyedBlock);
-		}
-		
+		 List<Block> blockListCopy = new ArrayList<Block>();
+	        blockListCopy.addAll(event.blockList());
+	        for (Block block : blockListCopy) {
+	        	
+	            if (config.getClaimed(block.getChunk()))
+	            	event.blockList().remove(block);
+	        }
     }
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
