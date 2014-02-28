@@ -9,7 +9,7 @@ public class PlayerConfigHandeler
 	{
 		if (!(p == null))
 		{
-			return new CustomConfig(jp, "/players/"+p.getDisplayName()+".yml");
+			return new CustomConfig(jp, "/players/"+p.getName()+".yml");
 		}
 		return null;
 	}

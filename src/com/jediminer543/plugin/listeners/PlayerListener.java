@@ -37,7 +37,7 @@ public class PlayerListener implements Listener
     		CustomConfig pc = PlayerConfigHandeler.getPlayerConfig(p, plugin);
     		pc.getConfig().set("Faction", "Default");
     		pc.getConfig().set("Server.Rank", "Standard");
-    		playerlist.add(p.getDisplayName());
+    		playerlist.add(p.getName());
     		pluginconfig.set("Server.Players.List", playerlist);
     		plugin.saveConfig();
     		plugin.getLogger().info("New Player added to config");
