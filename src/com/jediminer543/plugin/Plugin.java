@@ -16,6 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.jediminer543.plugin.config.ClaimConfig;
 import com.jediminer543.plugin.config.CustomConfig;
+import com.jediminer543.plugin.config.FactionConfig;
 import com.jediminer543.plugin.config.PlayerConfigHandeler;
 import com.jediminer543.plugin.config.parsers.LocationHandeler;
 import com.jediminer543.plugin.listeners.ClaimListener;
@@ -29,17 +30,17 @@ public final class Plugin extends JavaPlugin
 	/**
 	 * The faction config
 	 */
-	CustomConfig FactionConfigHandeler = new CustomConfig(this, "factions.yml");
+	public FactionConfig FactionConfigHandeler = new FactionConfig(this, "factions.yml");
 	
 	/**
 	 * The location config
 	 */
-	CustomConfig WarpConfigHandeler = new CustomConfig(this, "locations.yml");
+	public CustomConfig WarpConfigHandeler = new CustomConfig(this, "locations.yml");
 	
 	/**
 	 * The claim config
 	 */
-	ClaimConfig ClaimConfigHandeler = new ClaimConfig(this, "claims.yml");
+	public ClaimConfig ClaimConfigHandeler = new ClaimConfig(this, "claims.yml");
 	
 	/**
 	 * Called when the plugin loads up
@@ -49,7 +50,7 @@ public final class Plugin extends JavaPlugin
     	//Tells the console the plugin is loading
     	getLogger().info("Plugin Loading Please Wait");
     	//Initiates the configs
-    	FactionConfigHandeler = new CustomConfig(this, "factions.yml");
+    	FactionConfigHandeler = new FactionConfig(this, "factions.yml");
     	WarpConfigHandeler = new CustomConfig(this, "locations.yml");
     	ClaimConfigHandeler = new ClaimConfig(this, "claims.yml");
     	WarpConfigHandeler.reloadConfig();

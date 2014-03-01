@@ -131,40 +131,6 @@ public class ClaimListener implements Listener
     }
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
-    public void onFluidPlaced(PlayerBucketEmptyEvent event)
-    {
-		Block block = event.getBlockClicked();
-		Chunk blockChunk = block.getChunk();
-		if (config.getClaimed(blockChunk))
-		{
-			if(!config.isTrusted(blockChunk, event.getPlayer()))
-			{
-			event.getPlayer().sendMessage("This chunk is claimed by: "+config.getConfig().getString(LocationHandeler.toConfigHandler(blockChunk)+".owner")+" thus you cant empty buckets here.");
-			event.setCancelled(true);
-			}
-		}
-		
-    }
-	
-
-	
-	/*
-	@EventHandler(priority = EventPriority.HIGHEST)
-    public void onEntityDamage(EntityDamageEvent event)
-    {
-		System.out.println("Claim Event Detected");
-		Chunk blockChunk = event.getEntity().getLocation().getChunk();
-		DamageCause dc = event.getCause();
-		if (config.getClaimed(blockChunk))
-		{
-			System.out.println("Spawn Detected in claimed chunk blocked");
-			event.setCancelled(true);
-		}
-		
-    }
-    */
-	
-	@EventHandler(priority = EventPriority.HIGHEST)
     public void onInventoryOpenEvent(InventoryOpenEvent event){
 		if (event.getInventory().getHolder() instanceof Chest)
 		{
@@ -302,4 +268,26 @@ public class ClaimListener implements Listener
 		
 
     }
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+    public void onFluidPlaced(PlayerBucketEmptyEvent event)
+    {
+		Block block = event.getBlockClicked();
+		Chunk blockChunk = block.getChunk();
+		if (config.getClaimed(blockChunk))
+		{
+			if(!config.isTrusted(blockChunk, event.getPlayer()))
+			{
+			event.getPlayer().sendMessage("This chunk is claimed by: "+config.getConfig().getString(LocationHandeler.toConfigHandler(blockChunk)+".owner")+" thus you cant empty buckets here.");
+			event.setCancelled(true);
+			}
+		}
+		
+    }
+	
+	
+	
+
+	
+	
 }
