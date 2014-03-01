@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.entity.Player;
+
 import com.jediminer543.plugin.Plugin;
 import com.jediminer543.plugin.config.objects.Claim;
 import com.jediminer543.plugin.config.objects.Owner;
@@ -23,6 +24,7 @@ public class ClaimConfig extends CustomConfig
 		this.plugin = plugin;
 	}
 	
+	@Deprecated
 	public boolean getClaimed(Chunk chunk)
 	{
 		if (chunk == null)
@@ -42,6 +44,7 @@ public class ClaimConfig extends CustomConfig
 		}
 	}
 	
+	@Deprecated
 	public Player getOwner(Chunk chunk)
 	{
 		if (this.getClaimed(chunk))
@@ -54,6 +57,7 @@ public class ClaimConfig extends CustomConfig
 		}
 	}
 	
+	@Deprecated
 	public boolean isOwner(Chunk chunk, Player p)
 	{
 		if (this.getClaimed(chunk))
@@ -73,6 +77,7 @@ public class ClaimConfig extends CustomConfig
 		}
 	}
 	
+	@Deprecated
 	public boolean isTrusted(Chunk chunk, Player p)
 	{
 		if (this.getClaimed(chunk))
