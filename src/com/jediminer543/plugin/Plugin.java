@@ -6,7 +6,6 @@ import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -281,14 +280,14 @@ public final class Plugin extends JavaPlugin
 			if (player)
 			{
 				Location l =splayer.getLocation();
-				Chunk claim = l.getChunk();
-				if (!config.getClaimed(claim))
+				Claim claim = config.getClaim(l.getChunk());
+				if (!claim.isClaimed)
 				{
 					s.sendMessage("This chunk is unclaimed");
 				}
 				else
 				{
-					s.sendMessage("This chunk is owned by: " + config.getConfig().getString(LocationHandeler.toConfigHandler(claim)+".owner"));
+					s.sendMessage("This chunk is owned by: " + claim.getOwnerName());
 				}
 			}
 			else
