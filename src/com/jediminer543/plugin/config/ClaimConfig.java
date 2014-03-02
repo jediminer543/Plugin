@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import com.jediminer543.plugin.Plugin;
 import com.jediminer543.plugin.config.objects.Claim;
+import com.jediminer543.plugin.config.objects.Faction;
 import com.jediminer543.plugin.config.objects.Owner;
 import com.jediminer543.plugin.config.objects.PlayerInfo;
 import com.jediminer543.plugin.config.parsers.LocationHandeler;
@@ -99,7 +100,7 @@ public class ClaimConfig extends CustomConfig
 		}
 	}
 	
-	public Claim fillClaim(Chunk chunk)
+	public Claim getClaim(Chunk chunk)
 	{
 		if (chunk == null)
 		{
@@ -109,6 +110,9 @@ public class ClaimConfig extends CustomConfig
 		{
 			Claim claim = new Claim();
 			claim.chunk = chunk;
+			claim.isClaimed = this.getConfig().getBoolean(LocationHandeler.toConfigHandler(chunk)+".claimed");
+			if (claim.isClaimed)
+			{
 			String ownerName = this.getConfig().getString(LocationHandeler.toConfigHandler(chunk)+".owner");
 			if (ownerName.startsWith("Faction-"))
 			{
@@ -131,9 +135,53 @@ public class ClaimConfig extends CustomConfig
 				}
 			}
 			claim.trusted = trusted;
-			
+			}
+			else
+			{
+				claim.owner = null;
+				claim.trusted = new ArrayList<Owner>();
+			}
+			return claim;
 		}
-		return null;
+		
+	}
+	
+	public boolean writeClaim(Claim claim)
+	{
+		if (claim == null)
+		{
+			return false;
+		}
+		else
+		{
+			this.getConfig().set(LocationHandeler.toConfigHandler(claim.chunk)+".claimed", claim.isClaimed);
+			//String ownerName = this.getConfig().getString(LocationHandeler.toConfigHandler(claim.chunk)+".owner");
+			if (claim.owner instanceof Faction)
+			{
+				Faction owner = (Faction)claim.owner;
+				this.getConfig().set(LocationHandeler.toConfigHandler(claim.chunk)+".owner", "Faction-"+ owner.factionName);
+			}
+			else
+			{
+				PlayerInfo owner = (PlayerInfo)claim.owner;
+				this.getConfig().set(LocationHandeler.toConfigHandler(claim.chunk)+".owner", owner.attachedPlayer.getName());
+			}
+			for (Owner trustedName: claim.trusted)
+			{
+				if (trustedName instanceof Faction)
+				{
+					Faction owner = (Faction)claim.owner;
+					this.getConfig().set(LocationHandeler.toConfigHandler(claim.chunk)+".owner", "Faction-"+ owner.factionName);
+				}
+				else
+				{
+					PlayerInfo owner = (PlayerInfo)claim.owner;
+					this.getConfig().set(LocationHandeler.toConfigHandler(claim.chunk)+".owner", owner.attachedPlayer.getName());
+				}
+			}
+			return true;
+		}
+		
 	}
 	
 }

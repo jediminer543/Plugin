@@ -18,6 +18,8 @@ import com.jediminer543.plugin.config.ClaimConfig;
 import com.jediminer543.plugin.config.CustomConfig;
 import com.jediminer543.plugin.config.FactionConfig;
 import com.jediminer543.plugin.config.PlayerConfigHandeler;
+import com.jediminer543.plugin.config.objects.Claim;
+import com.jediminer543.plugin.config.objects.PlayerInfo;
 import com.jediminer543.plugin.config.parsers.LocationHandeler;
 import com.jediminer543.plugin.listeners.ClaimListener;
 import com.jediminer543.plugin.listeners.PlayerListener;
@@ -93,9 +95,10 @@ public final class Plugin extends JavaPlugin
     	WarpConfigHandeler.saveConfig();
     	FactionConfigHandeler.saveConfig();
     	ClaimConfigHandeler.saveConfig();
-    	FileConfiguration pluginconfig = getConfig();
-    	List<String> playerlist = pluginconfig.getStringList("Server.Players.List");
+    	//FileConfiguration pluginconfig = getConfig();
+    	//List<String> playerlist = pluginconfig.getStringList("Server.Players.List");
     	//Writes Player Location To Thier Player Config
+    	/*
     	for (String playername : playerlist) {
     		OfflinePlayer oflineplayer = Bukkit.getOfflinePlayer(playername);
     		Player player = oflineplayer.getPlayer();
@@ -104,6 +107,7 @@ public final class Plugin extends JavaPlugin
     		pconfig.saveConfig();
     		
    	}
+   	*/
     }
     
     /**
@@ -239,7 +243,7 @@ public final class Plugin extends JavaPlugin
 	 * @param plugn The plugin (pass 'this')
 	 * @return Did sender use correct syntax for command
 	 */
-	public static boolean claimHandler(CommandSender s, String[] args, ClaimConfig config, JavaPlugin plugin)
+	public static boolean claimHandler(CommandSender s, String[] args, ClaimConfig config, Plugin plugin)
 	{
 		boolean player = false;
 		Player splayer = null;
@@ -256,11 +260,12 @@ public final class Plugin extends JavaPlugin
 			if (player)
 			{
 				Location l =splayer.getLocation();
-				Chunk claim = l.getChunk();
-				if (!config.getClaimed(claim))
+				Claim claim = config.getClaim(l.getChunk());
+				if (!claim.isClaimed)
 				{
-					config.getConfig().set(LocationHandeler.toConfigHandler(claim)+".owner", splayer.getName());
-					config.getConfig().set(LocationHandeler.toConfigHandler(claim)+".claimed", true);
+					claim.owner = new PlayerInfo(splayer);
+					claim.isClaimed = true;
+					config.writeClaim(claim);
 				}
 				else
 				{

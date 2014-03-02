@@ -12,4 +12,5 @@ public class Claim
 	public Owner owner;
 	public List<Owner> trusted;
 	public Chunk chunk;
+	public boolean isClaimed;
 }
