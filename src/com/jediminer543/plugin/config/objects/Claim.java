@@ -3,7 +3,6 @@ package com.jediminer543.plugin.config.objects;
 import java.util.List;
 
 import org.bukkit.Chunk;
-import org.bukkit.entity.Player;
 
 /**
  * Represents A Claim In World
