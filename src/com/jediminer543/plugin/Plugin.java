@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -307,16 +306,15 @@ public final class Plugin extends JavaPlugin
 			if (player)
 			{
 				Location l =splayer.getLocation();
-				Chunk claim = l.getChunk();
-				if (config.isOwner(claim, splayer))
+				Claim claim = config.getClaim(l.getChunk());
+				if (claim.isOwner(new PlayerInfo(splayer)))
 				{
-					List<String> trustedlist = config.getConfig().getStringList(LocationHandeler.toConfigHandler(claim)+".trusted");
-					trustedlist.add(args[1]);
-					config.getConfig().set(LocationHandeler.toConfigHandler(claim)+".trusted", trustedlist);
+					//List<String> trustedlist = config.getConfig().getStringList(LocationHandeler.toConfigHandler(claim)+".trusted");
+					claim.trusted.add(new PlayerInfo(Bukkit.getPlayer(args[1])));
 				}
 				else
 				{
-					s.sendMessage("This chunk is owned by: " + config.getConfig().getString(LocationHandeler.toConfigHandler(claim)+".owner"));
+					s.sendMessage("This chunk is owned by: " + claim.getOwnerName());
 				}
 			}
 			else
@@ -331,14 +329,14 @@ public final class Plugin extends JavaPlugin
 			if (player)
 			{
 				Location l =splayer.getLocation();
-				Chunk claim = l.getChunk();
-				if (config.isOwner(claim, splayer))
+				Claim claim = config.getClaim(l.getChunk());
+				if (claim.isOwner(new PlayerInfo(splayer)))
 				{
-					config.getConfig().set(LocationHandeler.toConfigHandler(claim)+".claimed", false);
+					claim.isClaimed = false;
 				}
 				else
 				{
-					s.sendMessage("This chunk is owned by: " + config.getConfig().getString(LocationHandeler.toConfigHandler(claim)+".owner"));
+					s.sendMessage("This chunk is owned by: " + claim.getOwnerName());
 				}
 			}
 			else
