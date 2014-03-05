@@ -541,6 +541,9 @@ public final class Plugin extends JavaPlugin
 				s.sendMessage("Non player implementation will be implemented soon");
 			}
 			return true;
+		case "claim":
+			
+			return true;
 		default:
 			s.sendMessage("Invalid command, use '/faction help' for more info");
 		}

@@ -4,15 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
 import com.jediminer543.plugin.Plugin;
 import com.jediminer543.plugin.config.objects.Faction;
 import com.jediminer543.plugin.config.objects.PlayerInfo;
 
 public class FactionConfig extends CustomConfig {
 
+	Plugin plugin;
+	
 	public FactionConfig(Plugin plugin, String fileName)
 	{
 		super(plugin, fileName);
+		this.plugin = plugin;
 	}
 	
 	public Faction getFaction(String name)
@@ -52,4 +57,17 @@ public class FactionConfig extends CustomConfig {
 		}
 	}
 
+	public PlayerInfo getPlayerInfoWithFaction(Player p)
+	{
+		if (p == null)
+		{
+		return null;
+		}
+		else
+		{
+			PlayerInfo pi = new PlayerInfo(p);
+			pi.faction = this.getFaction(PlayerConfigHandeler.getPlayerConfig(p, plugin).getConfig().getString("Faction"));
+			return pi;
+		}
+	}
 }
