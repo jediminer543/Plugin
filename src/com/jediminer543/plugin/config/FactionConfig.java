@@ -57,7 +57,7 @@ public class FactionConfig extends CustomConfig {
 		}
 	}
 
-	public PlayerInfo getPlayerInfoWithFaction(Player p)
+	public PlayerInfo getPlayerInfo(Player p)
 	{
 		if (p == null)
 		{

@@ -361,7 +361,7 @@ public final class Plugin extends JavaPlugin
 	 * @param plugn The plugin (pass 'this')
 	 * @return Did sender use correct syntax for command
 	 */
-	public static boolean factionHandeler(CommandSender s, String[] args, FileConfiguration config, JavaPlugin plugin)
+	public static boolean factionHandeler(CommandSender s, String[] args, FileConfiguration config, Plugin plugin)
 	{
 		boolean player = false;
 		Player splayer = null;
@@ -542,7 +542,32 @@ public final class Plugin extends JavaPlugin
 			}
 			return true;
 		case "claim":
-			
+			if (player)
+			{
+			PlayerInfo pi = plugin.FactionConfigHandeler.getPlayerInfo(splayer);
+			if (pi.faction.founder == pi)
+					{
+				Claim claim = plugin.ClaimConfigHandeler.getClaim(pi.attachedPlayer.getLocation().getChunk());
+				if (!claim.isClaimed)
+				{
+					claim.owner = pi.faction;
+					claim.isClaimed = true;
+					plugin.ClaimConfigHandeler.writeClaim(claim);
+				}
+				else
+				{
+					s.sendMessage("Chunk already claimed");
+				}
+					}
+			else
+			{
+				s.sendMessage("Only Faction Founders can execute this command");
+			}
+			}
+			else
+			{
+				s.sendMessage("Only players can execute this command");
+			}
 			return true;
 		default:
 			s.sendMessage("Invalid command, use '/faction help' for more info");
