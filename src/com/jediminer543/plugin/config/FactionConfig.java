@@ -20,6 +20,11 @@ public class FactionConfig extends CustomConfig {
 		this.plugin = plugin;
 	}
 	
+	/**
+	 * 
+	 * @param name Name of the faction
+	 * @return
+	 */
 	public Faction getFaction(String name)
 	{
 		if (name == null)
@@ -30,7 +35,7 @@ public class FactionConfig extends CustomConfig {
 		{
 			Faction faction = new Faction(name);
 			String founderName = this.getConfig().getString(name+".Founder");
-			PlayerInfo founder = new PlayerInfo(Bukkit.getPlayer(founderName)); 
+			PlayerInfo founder = new PlayerInfo(Bukkit.getPlayer(founderName));  // Error Here
 			faction.founder = founder;
 			List<PlayerInfo> recruts = new ArrayList<PlayerInfo>();
 			for (String s: this.getConfig().getStringList(name+".Recrutes"))
