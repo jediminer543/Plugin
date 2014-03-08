@@ -35,6 +35,8 @@ public class FactionConfig extends CustomConfig {
 		{
 			Faction faction = new Faction(name);
 			String founderName = this.getConfig().getString(name+".Founder");
+			if (!(founderName == null))
+			{
 			PlayerInfo founder = new PlayerInfo(Bukkit.getPlayer(founderName));  // Error Here
 			faction.founder = founder;
 			List<PlayerInfo> recruts = new ArrayList<PlayerInfo>();
@@ -58,6 +60,7 @@ public class FactionConfig extends CustomConfig {
 			faction.recruts = recruts;
 			faction.members = members;
 			faction.officers = officers;
+			}
 			return faction;
 		}
 	}
