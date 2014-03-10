@@ -39,25 +39,25 @@ public class FactionConfig extends CustomConfig {
 			{
 			PlayerInfo founder = new PlayerInfo(Bukkit.getPlayer(founderName));  // Error Here
 			faction.founder = founder;
-			List<PlayerInfo> recruts = new ArrayList<PlayerInfo>();
-			for (String s: this.getConfig().getStringList(name+".Recrutes"))
+			List<PlayerInfo> recruit = new ArrayList<PlayerInfo>();
+			for (String s: this.getConfig().getStringList(name+".Recruit"))
 			{
-				recruts.add(new PlayerInfo(Bukkit.getPlayer(s)));
+				recruit.add(new PlayerInfo(Bukkit.getPlayer(s)));
 			}
 			List<PlayerInfo> members = new ArrayList<PlayerInfo>();
 			for (String s: this.getConfig().getStringList(name+".Members"))
 			{
 				members.add(new PlayerInfo(Bukkit.getPlayer(s)));
-				recruts.add(new PlayerInfo(Bukkit.getPlayer(s)));
+				recruit.add(new PlayerInfo(Bukkit.getPlayer(s)));
 			}
 			List<PlayerInfo> officers = new ArrayList<PlayerInfo>();
 			for (String s: this.getConfig().getStringList(name+".Officers"))
 			{
 				officers.add(new PlayerInfo(Bukkit.getPlayer(s)));
 				members.add(new PlayerInfo(Bukkit.getPlayer(s)));
-				recruts.add(new PlayerInfo(Bukkit.getPlayer(s)));
+				recruit.add(new PlayerInfo(Bukkit.getPlayer(s)));
 			}
-			faction.recruts = recruts;
+			faction.recruits = recruit;
 			faction.members = members;
 			faction.officers = officers;
 			}
@@ -65,6 +65,46 @@ public class FactionConfig extends CustomConfig {
 		}
 	}
 
+	/**
+	 * 
+	 * @param name Name of the faction
+	 * @return
+	 */
+	public void writeFaction(Faction faction)
+	{
+		if (faction == null)
+		{
+		}
+		else
+		{	
+			this.getConfig().set(faction.factionName+".Founder", faction.founder.attachedPlayer.getName());
+			List<String> recruit = new ArrayList<String>();
+			for (PlayerInfo P: faction.recruits)
+			{
+				recruit.add(P.attachedPlayer.getName());
+			}
+			this.getConfig().set(faction.factionName+".Recruits", recruit);
+			List<String> members = new ArrayList<String>();
+			for (PlayerInfo P: faction.members)
+			{
+				members.add(P.attachedPlayer.getName());
+			}
+			this.getConfig().set(faction.factionName+".Members", members);
+			List<String> officers = new ArrayList<String>();
+			for (PlayerInfo P: faction.officers)
+			{
+				officers.add(P.attachedPlayer.getName());
+			}
+			this.getConfig().set(faction.factionName+".Officers", officers);
+		}
+	}
+	
+	
+	public List<String> getFactionList()
+	{
+		return this.getConfig().getStringList("Factions.List");
+	}
+	
 	public PlayerInfo getPlayerInfo(Player p)
 	{
 		if (p == null)

@@ -17,6 +17,7 @@ import com.jediminer543.plugin.config.CustomConfig;
 import com.jediminer543.plugin.config.FactionConfig;
 import com.jediminer543.plugin.config.PlayerConfigHandeler;
 import com.jediminer543.plugin.config.objects.Claim;
+import com.jediminer543.plugin.config.objects.Faction;
 import com.jediminer543.plugin.config.objects.PlayerInfo;
 import com.jediminer543.plugin.config.parsers.LocationHandeler;
 import com.jediminer543.plugin.listeners.ClaimListener;
@@ -133,7 +134,7 @@ public final class Plugin extends JavaPlugin
 			case "plugin":
 				return pluginHandeler(sender, args, this);
 			case "faction":
-				return factionHandeler(sender, args, FactionConfigHandeler.getConfig(), this);
+				return factionHandeler(sender, args, this);
 			case "claim":
 				return claimHandler(sender, args, ClaimConfigHandeler, this);
 				/*
@@ -361,6 +362,217 @@ public final class Plugin extends JavaPlugin
 	 * @param plugn The plugin (pass 'this')
 	 * @return Did sender use correct syntax for command
 	 */
+	public static boolean factionHandeler(CommandSender s, String[] args, Plugin plugin)
+	{
+		boolean player = false;
+		Player splayer = null;
+		if (s instanceof Player)
+		{
+			player = true;
+			splayer = (Player) s;
+		}
+		switch (args[0].toLowerCase())
+		{
+		case "found":
+			if (args.length == 2)
+			{
+				PlayerInfo playerinfo = plugin.FactionConfigHandeler.getPlayerInfo(splayer);
+				if(PlayerConfigHandeler.getPlayerConfig(splayer, plugin).getConfig().getString("Faction") == null || PlayerConfigHandeler.getPlayerConfig(splayer, plugin).getConfig().getString("Faction") == "Default")
+				{
+					if (plugin.FactionConfigHandeler.getFactionList().contains(args[1]) | args[1] == "Default")
+						{
+					s.sendMessage("That name is taken");
+					s.sendMessage("Try another one");
+						}
+				else
+				{
+					if (player)
+					{
+						Faction faction = plugin.FactionConfigHandeler.getFaction(args[1]);
+						faction.founder = new PlayerInfo(splayer);
+						faction.addOfficer(new PlayerInfo(splayer));
+						plugin.FactionConfigHandeler.writeFaction(faction);
+						s.sendMessage("Faction Created");
+					}
+					else
+					{
+						s.sendMessage("Only players can execute this command");
+						s.sendMessage("Non player implementation will be implemented soon");
+					}
+				}
+				}
+			}
+			else
+			{
+				s.sendMessage("You didn't specify the faction name");
+			}
+			return true;
+		case "leave":
+			if(PlayerConfigHandeler.getPlayerConfig(splayer, plugin).getConfig().getString("Faction") == null || PlayerConfigHandeler.getPlayerConfig(splayer, plugin).getConfig().getString("Faction") == "Default")
+			{
+			if (player)
+			{
+				Faction faction = plugin.FactionConfigHandeler.getFaction(args[1]);
+				faction.founder = new PlayerInfo(splayer);
+				faction.addOfficer(new PlayerInfo(splayer));
+				plugin.FactionConfigHandeler.writeFaction(faction);
+			}
+			else
+			{
+				s.sendMessage("Only players can execute this command");
+			}
+			}
+			else
+			{
+				s.sendMessage("You arn't in a faction, so you cant leave one.");
+			}
+			return true;
+		case "join":
+			if (player)
+			{
+				if (!(args.length == 2))
+				{
+					s.sendMessage("You didn't specify a faction");
+					s.sendMessage("Correct usage /faction join <faction to join>");
+				}
+				else
+				{
+					if (config.getBoolean(args[1]+".Joinable", false))
+					{
+						CustomConfig joinerconfig = PlayerConfigHandeler.getPlayerConfig(splayer, plugin);
+						joinerconfig.getConfig().set("Faction.Rank", "Normal");
+						joinerconfig.getConfig().set("Faction", args[1]);
+						joinerconfig.saveConfig();
+					}
+					else
+					{
+						if (config.getBoolean(args[1]+"."+s.getName()+".Invited", false))
+						{
+							CustomConfig joinerconfig = PlayerConfigHandeler.getPlayerConfig(splayer, plugin);
+							joinerconfig.getConfig().set("Faction.Rank", "Normal");
+							joinerconfig.getConfig().set("Faction", args[1]);
+							joinerconfig.saveConfig();
+						}
+						else
+						{
+							s.sendMessage("This Faction is unjoinable");
+						}
+					}
+				}
+
+			}
+
+			else
+			{
+				s.sendMessage("Only players can execute this command");
+			}
+			return true;
+		case "sethome":
+			if (player)
+			{
+				FileConfiguration playerconfig = PlayerConfigHandeler.getPlayerConfig(splayer, plugin).getConfig();
+				if (playerconfig.getString("Faction.Rank", "Normal") == "Founder")
+						{
+					config.set(playerconfig.getString("Faction")+".Home.Loc", LocationHandeler.fromLoc(splayer.getLocation()));
+					s.sendMessage("The faction home location is now set");
+						}
+				else
+				{
+					s.sendMessage("Only Faction Founders can execute this command");
+				}
+
+
+			}
+			else
+			{
+				s.sendMessage("Only players can execute this command");
+			}
+			return true;
+		case "home":
+			if (player)
+			{
+				FileConfiguration playerconfig = PlayerConfigHandeler.getPlayerConfig(splayer, plugin).getConfig();
+				splayer.teleport(LocationHandeler.toLoc(config.getStringList(playerconfig.getString("Faction")+".Home.Loc")));
+			}
+			else
+			{
+				s.sendMessage("Only players can execute this command");
+			}
+			return true;
+		case "open":
+			if (player)
+			{
+			FileConfiguration playerconfig = PlayerConfigHandeler.getPlayerConfig(splayer, plugin).getConfig();
+			if (playerconfig.getString("Faction.Rank", "Normal") == "Founder")
+					{
+				config.set(playerconfig.getString("Faction")+".Joinable", true);
+				s.sendMessage("The faction is now open use /faction close to close");
+					}
+			else
+			{
+				s.sendMessage("Only Faction Founders can execute this command");
+			}
+			}
+			else
+			{
+				s.sendMessage("Only players can execute this command");
+				s.sendMessage("Non player implementation will be implemented soon");
+			}
+			return true;
+		case "close":
+			if (player)
+			{
+			FileConfiguration playerconfig = PlayerConfigHandeler.getPlayerConfig(splayer, plugin).getConfig();
+			if (playerconfig.getString("Faction.Rank", "Normal") == "Founder")
+					{
+				config.set(playerconfig.getString("Faction")+".Joinable", true);
+				s.sendMessage("The faction is now closed use /faction open to open");
+					}
+			else
+			{
+				s.sendMessage("Only Faction Founders can execute this command");
+			}
+			}
+			else
+			{
+				s.sendMessage("Only players can execute this command");
+				s.sendMessage("Non player implementation will be implemented soon");
+			}
+			return true;
+		case "claim":
+			if (player)
+			{
+			PlayerInfo pi = plugin.FactionConfigHandeler.getPlayerInfo(splayer);
+			if (pi.faction.founder == pi)
+					{
+				Claim claim = plugin.ClaimConfigHandeler.getClaim(pi.attachedPlayer.getLocation().getChunk());
+				if (!claim.isClaimed)
+				{
+					claim.owner = pi.faction;
+					claim.isClaimed = true;
+					plugin.ClaimConfigHandeler.writeClaim(claim);
+				}
+				else
+				{
+					s.sendMessage("Chunk already claimed");
+				}
+					}
+			else
+			{
+				s.sendMessage("Only Faction Founders can execute this command");
+			}
+			}
+			else
+			{
+				s.sendMessage("Only players can execute this command");
+			}
+			return true;
+		default:
+			s.sendMessage("Invalid command, use '/faction help' for more info");
+		}
+		return false;
+	}
+	/*
 	public static boolean factionHandeler(CommandSender s, String[] args, FileConfiguration config, Plugin plugin)
 	{
 		boolean player = false;
@@ -416,10 +628,11 @@ public final class Plugin extends JavaPlugin
 		case "leave":
 			if (player)
 			{
-				List<String> players = config.getStringList("args[1]+.Members");
+				CustomConfig founderconfig = PlayerConfigHandeler.getPlayerConfig(splayer, plugin);
+				String factionToLeave = founderconfig.getConfig().getString("Faction");
+				List<String> players = config.getStringList(args[1]+".Members");
 				players.remove(splayer.getName());
 				config.set(args[1]+".Members", players);
-				CustomConfig founderconfig = PlayerConfigHandeler.getPlayerConfig(splayer, plugin);
 				founderconfig.getConfig().set("Faction.Rank", "Normal");
 				founderconfig.getConfig().set("Faction", "Default");
 				founderconfig.saveConfig();
@@ -575,6 +788,9 @@ public final class Plugin extends JavaPlugin
 		return false;
 	}
 
+	 */
+	
+	
 	/**
 	 * TODO move to own class
 	 * 
