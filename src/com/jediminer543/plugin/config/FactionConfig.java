@@ -40,7 +40,7 @@ public class FactionConfig extends CustomConfig {
 			PlayerInfo founder = new PlayerInfo(Bukkit.getPlayer(founderName));  // Error Here
 			faction.founder = founder;
 			List<PlayerInfo> recruit = new ArrayList<PlayerInfo>();
-			for (String s: this.getConfig().getStringList(name+".Recruit"))
+			for (String s: this.getConfig().getStringList(name+".Recruits"))
 			{
 				recruit.add(new PlayerInfo(Bukkit.getPlayer(s)));
 			}
@@ -60,6 +60,13 @@ public class FactionConfig extends CustomConfig {
 			faction.recruits = recruit;
 			faction.members = members;
 			faction.officers = officers;
+			faction.open = this.getConfig().getBoolean(faction.factionName+".Open", false);
+			List<PlayerInfo> invited = new ArrayList<PlayerInfo>();
+			for (String s: this.getConfig().getStringList(name+".Invited"))
+			{
+				invited.add(new PlayerInfo(Bukkit.getPlayer(s)));
+			}
+			faction.invited = invited;
 			}
 			return faction;
 		}
@@ -96,6 +103,13 @@ public class FactionConfig extends CustomConfig {
 				officers.add(P.attachedPlayer.getName());
 			}
 			this.getConfig().set(faction.factionName+".Officers", officers);
+			List<String> invited = new ArrayList<String>();
+			for (PlayerInfo P: faction.invited)
+			{
+				invited.add(P.attachedPlayer.getName());
+			}
+			this.getConfig().set(faction.factionName+".Invited", invited);
+			this.getConfig().set(faction.factionName+".Open", faction.open);
 		}
 	}
 	

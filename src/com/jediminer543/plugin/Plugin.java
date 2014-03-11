@@ -376,7 +376,6 @@ public final class Plugin extends JavaPlugin
 		case "found":
 			if (args.length == 2)
 			{
-				PlayerInfo playerinfo = plugin.FactionConfigHandeler.getPlayerInfo(splayer);
 				if(PlayerConfigHandeler.getPlayerConfig(splayer, plugin).getConfig().getString("Faction") == null || PlayerConfigHandeler.getPlayerConfig(splayer, plugin).getConfig().getString("Faction") == "Default")
 				{
 					if (plugin.FactionConfigHandeler.getFactionList().contains(args[1]) | args[1] == "Default")
@@ -437,26 +436,15 @@ public final class Plugin extends JavaPlugin
 				}
 				else
 				{
-					if (config.getBoolean(args[1]+".Joinable", false))
+					Faction faction = plugin.FactionConfigHandeler.getFaction(args[1]);
+					if (faction.canJoin(new PlayerInfo(splayer)))
 					{
-						CustomConfig joinerconfig = PlayerConfigHandeler.getPlayerConfig(splayer, plugin);
-						joinerconfig.getConfig().set("Faction.Rank", "Normal");
-						joinerconfig.getConfig().set("Faction", args[1]);
-						joinerconfig.saveConfig();
+						faction.addRecruit(new PlayerInfo(splayer));
+						s.sendMessage("You are now a member of "+ args[1]);
 					}
 					else
 					{
-						if (config.getBoolean(args[1]+"."+s.getName()+".Invited", false))
-						{
-							CustomConfig joinerconfig = PlayerConfigHandeler.getPlayerConfig(splayer, plugin);
-							joinerconfig.getConfig().set("Faction.Rank", "Normal");
-							joinerconfig.getConfig().set("Faction", args[1]);
-							joinerconfig.saveConfig();
-						}
-						else
-						{
-							s.sendMessage("This Faction is unjoinable");
-						}
+						s.sendMessage("Faction is closed");
 					}
 				}
 
@@ -467,6 +455,7 @@ public final class Plugin extends JavaPlugin
 				s.sendMessage("Only players can execute this command");
 			}
 			return true;
+			/*
 		case "sethome":
 			if (player)
 			{
@@ -499,19 +488,26 @@ public final class Plugin extends JavaPlugin
 				s.sendMessage("Only players can execute this command");
 			}
 			return true;
+			*/
 		case "open":
 			if (player)
 			{
-			FileConfiguration playerconfig = PlayerConfigHandeler.getPlayerConfig(splayer, plugin).getConfig();
-			if (playerconfig.getString("Faction.Rank", "Normal") == "Founder")
+				Faction faction = plugin.FactionConfigHandeler.getPlayerInfo(splayer).faction;
+				if (faction.officers.contains(new PlayerInfo(splayer)))
+						{
+					faction.open = true;
+					plugin.FactionConfigHandeler.writeFaction(faction);
+						}
+				else if(faction.founder.attachedPlayer.getName() == splayer.getName())
 					{
-				config.set(playerconfig.getString("Faction")+".Joinable", true);
-				s.sendMessage("The faction is now open use /faction close to close");
+					faction.open = true;
+					plugin.FactionConfigHandeler.writeFaction(faction);
 					}
-			else
-			{
-				s.sendMessage("Only Faction Founders can execute this command");
-			}
+				else
+				{
+					s.sendMessage("You are too low rank to do that");
+				}
+				
 			}
 			else
 			{
@@ -522,16 +518,21 @@ public final class Plugin extends JavaPlugin
 		case "close":
 			if (player)
 			{
-			FileConfiguration playerconfig = PlayerConfigHandeler.getPlayerConfig(splayer, plugin).getConfig();
-			if (playerconfig.getString("Faction.Rank", "Normal") == "Founder")
+				Faction faction = plugin.FactionConfigHandeler.getPlayerInfo(splayer).faction;
+				if (faction.officers.contains(new PlayerInfo(splayer)))
+						{
+					faction.open = false;
+					plugin.FactionConfigHandeler.writeFaction(faction);
+						}
+				else if(faction.founder.attachedPlayer.getName() == splayer.getName())
 					{
-				config.set(playerconfig.getString("Faction")+".Joinable", true);
-				s.sendMessage("The faction is now closed use /faction open to open");
+					faction.open = false;
+					plugin.FactionConfigHandeler.writeFaction(faction);
 					}
-			else
-			{
-				s.sendMessage("Only Faction Founders can execute this command");
-			}
+				else
+				{
+					s.sendMessage("You are too low rank to do that");
+				}
 			}
 			else
 			{
@@ -573,6 +574,7 @@ public final class Plugin extends JavaPlugin
 		return false;
 	}
 	/*
+	 * OLD FACTION HANDLER
 	public static boolean factionHandeler(CommandSender s, String[] args, FileConfiguration config, Plugin plugin)
 	{
 		boolean player = false;
