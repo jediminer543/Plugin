@@ -68,6 +68,14 @@ public class FactionConfig extends CustomConfig {
 			}
 			faction.invited = invited;
 			}
+			else
+			{
+				faction.open = this.getConfig().getBoolean(faction.factionName+".Open", false);
+				faction.invited = new ArrayList<PlayerInfo>();
+				faction.members = new ArrayList<PlayerInfo>();
+				faction.officers = new ArrayList<PlayerInfo>();
+				faction.recruits = new ArrayList<PlayerInfo>();
+			}
 			return faction;
 		}
 	}

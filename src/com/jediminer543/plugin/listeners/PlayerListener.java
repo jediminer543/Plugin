@@ -33,7 +33,7 @@ public class PlayerListener implements Listener
     	if (!playerlist.contains(p.getName()))
     	{
     		Bukkit.getServer().broadcastMessage("Welcome "+p.getDisplayName()+" to the server");
-    		p.sendMessage("Welcom to "+plugin.getConfig().getString("Server.Name"));
+    		p.sendMessage("Welcome to "+plugin.getConfig().getString("Server.Name"));
     		CustomConfig pc = PlayerConfigHandeler.getPlayerConfig(p, plugin);
     		pc.getConfig().set("Faction", "Default");
     		pc.getConfig().set("Server.Rank", "Standard");
