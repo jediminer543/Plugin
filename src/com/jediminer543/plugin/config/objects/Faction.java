@@ -61,4 +61,35 @@ public class Faction implements Owner
 			}
 		}
 	}
+	
+	public FactionRank getPlayerRank(PlayerInfo p)
+	{
+		if (p == null)
+		{
+		return null;
+		}
+		else
+		{
+			if (this.founder.attachedPlayer.getName() == p.attachedPlayer.getName())
+			{
+				return FactionRank.Founder;
+			}
+			else if (this.officers.contains(p))
+			{
+				return FactionRank.Officer;
+			}
+			else if (this.members.contains(p))
+			{
+				return FactionRank.Member;
+			}
+			else if (this.recruits.contains(p))
+			{
+				return FactionRank.Recruit;
+			}
+			else
+			{
+				return FactionRank.Not;
+			}
+		}
+	}
 }
