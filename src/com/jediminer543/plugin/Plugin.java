@@ -13,6 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.jediminer543.plugin.config.ClaimConfig;
 import com.jediminer543.plugin.config.CustomConfig;
 import com.jediminer543.plugin.config.FactionConfig;
+import com.jediminer543.plugin.config.MultiBlockConfig;
 import com.jediminer543.plugin.config.PlayerConfigHandeler;
 import com.jediminer543.plugin.config.objects.Claim;
 import com.jediminer543.plugin.config.objects.Faction;
@@ -40,6 +41,11 @@ public final class Plugin extends JavaPlugin
 	 * The claim config
 	 */
 	public ClaimConfig ClaimConfigHandeler = new ClaimConfig(this, "claims.yml");
+	
+	/**
+	 * The claim config
+	 */
+	public MultiBlockConfig MachineConfigHandeler = new MultiBlockConfig(this, "claims.yml");
 	
 	/**
 	 * Called when the plugin loads up
