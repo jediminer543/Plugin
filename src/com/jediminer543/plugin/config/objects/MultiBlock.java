@@ -4,5 +4,13 @@ import org.bukkit.Location;
 
 public class MultiBlock
 {
-	public Location CoreLocation;
+	public Location coreLocation;
+	public MultiBlockType type;
+	//public MultiBlockDirection direction;
+	
+	//public MultiBlockDirection checkDirection
+	//{
+	//}
+	
+	
 }

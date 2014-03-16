@@ -12,4 +12,5 @@ public class MultiBlockConfig extends CustomConfig
 		this.plugin = plugin;
 	}
 
+	
 }
