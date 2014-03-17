@@ -816,6 +816,9 @@ public final class Plugin extends JavaPlugin
 				plugin.save();
 				s.sendMessage("Files Saved");
 				return true;
+			case "tps":
+				s.sendMessage("Tps: " + GLOBALS.TPS);
+				return true;
 			case "default":
 				plugin.saveDefaultConfig();
 				s.sendMessage("Files Saved");
