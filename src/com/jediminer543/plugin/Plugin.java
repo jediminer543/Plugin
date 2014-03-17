@@ -21,6 +21,7 @@ import com.jediminer543.plugin.config.objects.PlayerInfo;
 import com.jediminer543.plugin.config.parsers.LocationHandeler;
 import com.jediminer543.plugin.listeners.ClaimListener;
 import com.jediminer543.plugin.listeners.PlayerListener;
+import com.jediminer543.plugin.threads.TPSThread;
 
 
 
@@ -45,7 +46,7 @@ public final class Plugin extends JavaPlugin
 	/**
 	 * The claim config
 	 */
-	public MultiBlockConfig MachineConfigHandeler = new MultiBlockConfig(this, "claims.yml");
+	public MultiBlockConfig MachineConfigHandeler = new MultiBlockConfig(this, "machines.yml");
 	
 	/**
 	 * Called when the plugin loads up
@@ -58,6 +59,7 @@ public final class Plugin extends JavaPlugin
     	FactionConfigHandeler = new FactionConfig(this, "factions.yml");
     	WarpConfigHandeler = new CustomConfig(this, "locations.yml");
     	ClaimConfigHandeler = new ClaimConfig(this, "claims.yml");
+    	MachineConfigHandeler = new MultiBlockConfig(this, "machines.yml");
     	WarpConfigHandeler.reloadConfig();
     	FactionConfigHandeler.reloadConfig();
     	ClaimConfigHandeler.reloadConfig();
@@ -69,6 +71,7 @@ public final class Plugin extends JavaPlugin
     	/*Registers PlayerEventHadndler
     	 * @see com.jediminer543.plugin.listeners.PlayerListener
     	 */
+    	Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new TPSThread(), 20, 1);
     	Bukkit.getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
     	Bukkit.getServer().getPluginManager().registerEvents(new ClaimListener(ClaimConfigHandeler), this);
 
@@ -814,7 +817,7 @@ public final class Plugin extends JavaPlugin
 				s.sendMessage("Files Saved");
 				return true;
 			case "default":
-				plugin.saveDefaultConfig();;
+				plugin.saveDefaultConfig();
 				s.sendMessage("Files Saved");
 				return true;
 		}
