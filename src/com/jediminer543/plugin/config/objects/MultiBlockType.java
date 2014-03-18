@@ -1,16 +1,21 @@
 package com.jediminer543.plugin.config.objects;
 
-public enum MultiBlockType
+public class MultiBlockType
 {
-	//Generator(),
-	TEST("TEST", 2, 2, 2);
 	
 	 public String guiName;
+	 public int xPlaneSize,yPlaneSize,zPlaneSize;
 	
-	MultiBlockType(String GUIName, int xPlaneSize, int yPlaneSize, int zPlaneSize)
+	public MultiBlockType(String GUIName, int xPlaneSize, int yPlaneSize, int zPlaneSize)
 	{
 		this.guiName = GUIName;
+		this.xPlaneSize = xPlaneSize;
+		this.yPlaneSize = yPlaneSize;
+		this.zPlaneSize = zPlaneSize;
+
 	}
+	
+	//public abstract 
 	
 	
 }

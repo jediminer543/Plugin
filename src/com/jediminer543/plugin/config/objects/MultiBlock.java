@@ -6,7 +6,7 @@ public class MultiBlock
 {
 	public Location coreLocation;
 	public MultiBlockType type;
-	//public MultiBlockDirection direction;
+	public MultiBlockDirection direction;
 	
 	//public MultiBlockDirection checkDirection
 	//{
