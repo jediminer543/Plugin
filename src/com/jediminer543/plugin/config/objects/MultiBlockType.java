@@ -1,5 +1,6 @@
 package com.jediminer543.plugin.config.objects;
 
+@Deprecated
 public class MultiBlockType
 {
 	

@@ -10,29 +10,39 @@ import org.bukkit.Material;
 public class MultiBlock
 {
 	public Location coreLocation;
-	public MultiBlockType type;
+	//public MultiBlockType type;
 	public MultiBlockDirection direction;
 	/**
 	 * Multiblock frame dimensions
 	 */
-	public int frameX, frameY, frameZ;
+	public int frameH, frameV, frameZ;
 	public List<Material> frameMaterials = new ArrayList<Material>();
 	
-	public MultiBlock(int frameX,int frameY,int frameZ)
+	public MultiBlock(int frameH,int frameV,int frameZ)
 	{
-		this(frameX, frameY, frameZ, new ArrayList<Material>(Arrays.asList(Material.OBSIDIAN)));
+		this(frameH, frameV, frameZ, new ArrayList<Material>(Arrays.asList(Material.OBSIDIAN)));
 		
 	}
 	
-	public MultiBlock(int frameX,int frameY,int frameZ, List<Material> frameMaterials)
+	public MultiBlock(int frameH,int frameV,int frameZ, List<Material> frameMaterials)
 	{
-		this.frameX = frameX;
-		this.frameY = frameY;
+		this.frameH = frameH;
+		this.frameV = frameV;
 		this.frameZ = frameZ;
 		frameMaterials.addAll(frameMaterials);
 	}
 	
-
+	public boolean validateFrame()
+	{
+		if (coreLocation == null)
+		{
+		return false;
+		}
+		else
+		{
+			return false;
+		}
+	}
 	
 	
 }
