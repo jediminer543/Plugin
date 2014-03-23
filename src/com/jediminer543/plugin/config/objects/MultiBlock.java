@@ -15,19 +15,19 @@ public class MultiBlock
 	/**
 	 * Multiblock frame dimensions
 	 */
-	public int frameH, frameV, frameZ;
+	public int frameH, frameW;
 	public List<Material> frameMaterials = new ArrayList<Material>();
 	
-	public MultiBlock(int frameH,int frameV,int frameZ)
+	public MultiBlock(int frameH,int frameW,int frameZ)
 	{
-		this(frameH, frameV, new ArrayList<Material>(Arrays.asList(Material.OBSIDIAN)));
+		this(frameH, frameW, new ArrayList<Material>(Arrays.asList(Material.OBSIDIAN)));
 		
 	}
 	
-	public MultiBlock(int frameH,int frameV, List<Material> frameMaterials)
+	public MultiBlock(int frameH,int frameW, List<Material> frameMaterials)
 	{
 		this.frameH = frameH;
-		this.frameV = frameV;
+		this.frameW = frameW;
 		frameMaterials.addAll(frameMaterials);
 	}
 	
@@ -39,7 +39,7 @@ public class MultiBlock
 		}
 		else
 		{
-			//if(coreLocation.getBlock())
+			
 			return false;
 		}
 	}
