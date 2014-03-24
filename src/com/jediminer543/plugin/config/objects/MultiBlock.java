@@ -31,7 +31,7 @@ public class MultiBlock
 		frameMaterials.addAll(frameMaterials);
 	}
 	
-	public boolean validateFrame()
+	public boolean validateCore()
 	{
 		if (coreLocation == null)
 		{
@@ -39,8 +39,28 @@ public class MultiBlock
 		}
 		else
 		{
+			if (coreLocation.getBlock().getType() == Material.SPONGE)
+			{
+				
+				return false;
+			}
+			else
+			{
+				return false;
+			}
 			
-			return false;
+		}
+	}
+	
+	public boolean validateFrame()
+	{
+		if (validateCore())
+		{
+		return false;
+		}
+		else
+		{
+		return false;
 		}
 	}
 	
