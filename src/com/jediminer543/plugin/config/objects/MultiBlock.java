@@ -18,7 +18,7 @@ public class MultiBlock
 	public int frameH, frameW;
 	public List<Material> frameMaterials = new ArrayList<Material>();
 	
-	public MultiBlock(int frameH,int frameW,int frameZ)
+	public MultiBlock(int frameH,int frameW)
 	{
 		this(frameH, frameW, new ArrayList<Material>(Arrays.asList(Material.OBSIDIAN)));
 		
@@ -56,6 +56,7 @@ public class MultiBlock
 	{
 		if (validateCore())
 		{
+			
 		return false;
 		}
 		else
